@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script to compute the number of CpG sites in the zebrafish GRCz12tu genome and per chromosome.
-# Midkit v 0.5.0
+# Modkit v 0.5.0
 
 # Set variables
 ref_genome=~/fil/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna
