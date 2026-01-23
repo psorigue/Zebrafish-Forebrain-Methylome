@@ -1,14 +1,16 @@
+
+# Script to create methylation proportions files from raw counts files for 6mA modification. As input, it takes .txt files with the following columns: chr, start, end, N (depth), X (methylated reads), strand. It takes data originated with modkit.
+
+# Load required libraries
 library(data.table)
 
-
+# Set working directory and output directory
 setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/6mA/"))
-out_dir <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/meth_proportions/6mA/")
+out_dir <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/meth_proportions/6mA")
 dir.create(out_dir, showWarnings = F, recursive = T)
-
 
 # Process all .txt files in current directory
 files <- list.files(pattern = "\\.txt$")
-
 
 for (f in files) {
   cat("Processing", f, "...\n")
@@ -20,28 +22,28 @@ for (f in files) {
     col.names = c("chr", "start", "end", "N", "X", "strand")
   )
   
-  # Filter coverage = or > than 5
-  dt <- dt[N > 4]
+  # Filter rows with coverage > 1
+  dt <- dt[N > 1]
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
   
   # Split by strand and keep only BED4 columns: chr, start, end, mpct
-  dt_pos <- dt[strand == "+", .(chr, start, end, N, mpct)]
-  dt_neg <- dt[strand == "-", .(chr, start, end, N, mpct)]
+  dt_pos <- dt[strand == "+", .(chr, start, end, mpct)]
+  dt_neg <- dt[strand == "-", .(chr, start, end, mpct)]
   
   # Base output name (without extension)
   base_name <- tools::file_path_sans_ext(basename(f))
   
-  # Output file names
+  # Output file names keeping strand information
   outfile_pos <- file.path(out_dir, paste0(base_name, "_mpct_pos.txt"))
   outfile_neg <- file.path(out_dir, paste0(base_name, "_mpct_neg.txt"))
   
-  # Write files (only if non-empty)
-  fwrite(dt_pos, outfile_pos, sep = "\t", col.names = F, row.names = F, quote = F)
-  fwrite(dt_neg, outfile_neg, sep = "\t", col.names = F, row.names = F, quote = F)
+  # Write files
+  fwrite(dt_pos, outfile_pos, sep = "\t")
+  fwrite(dt_neg, outfile_neg, sep = "\t")
   
-  # Clean up
+  # Clean up memory
   rm(dt, dt_pos, dt_neg)
   gc()
 }  
