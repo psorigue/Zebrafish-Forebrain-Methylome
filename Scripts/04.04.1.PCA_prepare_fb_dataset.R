@@ -7,6 +7,7 @@
 
 
 library(data.table)
+library(dplyr)
 
 
 path <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/"
@@ -36,27 +37,19 @@ for (sam in samples) {
       X = sum(X, na.rm = TRUE),
       .groups = "drop"
     ) %>%
-    select(chr, start, end, N, X)
+    filter(N > 4, chr != "NC_002333.2") %>% # Filter coverage = or > than 5 and Remove mitochondrial chromosome
+    mutate(mpct = X / N) %>% # Calculate methylation ratio
+    select(chr, start, end, N, mpct)
     
-  # Filter coverage = or > than 5
-  ds_grouped <- ds_grouped[N > 4]
-  
-  # Remove mitochondrial chromosome
-  ds_grouped <- ds_grouped[!ds_grouped$chr == "NC_002333.2",]
-  
-  # Calculate methylation ratio
-  ds_grouped[, mpct := X / N]
-  
-  dt_final <- ds_grouped[, .(chr, start, end, N, mpct)]
   
   outfile <- file.path(
     out_dir,
     paste0(tools::file_path_sans_ext(basename(f)), "_mpct.txt")
   )
   
-  fwrite(dt_final, outfile, sep = "\t", col.names = F, row.names = F, quote = F)
+  fwrite(ds_grouped, outfile, sep = "\t", col.names = F, row.names = F, quote = F)
   
-  rm(ds, dt_final, ds_grouped)
+  rm(ds, ds_grouped)
   gc()
 
 }
