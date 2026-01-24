@@ -43,9 +43,7 @@ for (sam in samples) {
     
   
   outfile <- file.path(
-    out_dir,
-    paste0(tools::file_path_sans_ext(basename(f)), "_mpct.txt")
-  )
+    out_dir, paste0(sam, "_cpg.bed"))
   
   fwrite(ds_grouped, outfile, sep = "\t", col.names = F, row.names = F, quote = F)
   
