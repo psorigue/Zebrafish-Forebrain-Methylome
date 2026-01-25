@@ -99,8 +99,7 @@ merged_filtered <- merged_filtered %>%
   mutate(delta = mean_meth_FB - mean_meth_WB)
 
 # Classify changes
-# threshold can be 0.1 or 0.15
-threshold <- 0.30
+threshold <- 20 # Percentage of delta
 merged_filtered <- merged_filtered %>%
   mutate(direction = case_when(
     delta > threshold ~ "Hyper in FB",
