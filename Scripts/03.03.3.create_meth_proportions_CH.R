@@ -1,4 +1,7 @@
-library(data.table)
+# Script to create methylation proportions files from raw counts files for 5mC and 5hmC datasets. 
+# As input, it takes the output of script 03.02.pileup.sh: TXT files with the following columns: chr, start, end, N (depth), X (methylated reads), strand. In CH case, it also includes a motif column to be able to separate contexts (CA, CC, CT).
+
+library(data.table) # v.1.18
 
 # ===============================
 # 1. Paths
@@ -21,11 +24,11 @@ for(f in files) {
               header = FALSE,
               col.names = c("chr", "start", "end", "N", "X", "strand", "motif"))
   
-  # Extract dinucleotide pattern (CA, CC, CT) from motif
+  # Extract dinucleotide pattern (CA, CC, CT) from motif column
   dt[, pattern := tstrsplit(motif, ",")[[2]]]
   
   # Filter coverage
-  dt <- dt[N > 2]
+  dt <- dt[N > 4]
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
