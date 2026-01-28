@@ -7,7 +7,7 @@
 # Set input/output paths
 path_in=~/fil/Epi/Data_genomics/bams_genomics/Bam_Aligned_Cat/
 path_out=~/fil/Epi/Data_genomics/bams_filtered/
-stats_dir=~/fil/Epi/Data_genomics/qc_stats/
+stats_dir=~/fil/Methylome/QC/qc_stats/
 
 # Define output files for statistics
 counts_out="${stats_dir}/read_counts.tsv"
