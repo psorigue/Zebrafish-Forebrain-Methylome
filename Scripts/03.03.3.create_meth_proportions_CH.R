@@ -48,8 +48,8 @@ for(f in files) {
     base_name <- tools::file_path_sans_ext(basename(f))
     
     # Output files
-    outfile_pos <- file.path(path_out, paste0(base_name, "_", pat, "_pos.txt"))
-    outfile_neg <- file.path(path_out, paste0(base_name, "_", pat, "_neg.txt"))
+    outfile_pos <- file.path(path_out, paste0(base_name, "_", pat, "_pos_mpct.txt"))
+    outfile_neg <- file.path(path_out, paste0(base_name, "_", pat, "_neg_mpct.txt"))
     
     # Write only if non-empty
     if(nrow(dt_pos) > 0) fwrite(dt_pos, outfile_pos, sep="\t", col.names=FALSE, quote=FALSE)

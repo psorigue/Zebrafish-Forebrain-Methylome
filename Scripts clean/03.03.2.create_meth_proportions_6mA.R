@@ -30,8 +30,8 @@ for (f in files) {
   dt[, mpct := X / N]
   
   # Split by strand and keep only BED4 columns: chr, start, end, mpct
-  dt_pos <- dt[strand == "+", .(chr, start, end, mpct)]
-  dt_neg <- dt[strand == "-", .(chr, start, end, mpct)]
+  dt_pos <- dt[strand == "+", .(chr, start, end, mpct, N)]
+  dt_neg <- dt[strand == "-", .(chr, start, end, mpct, N)]
   
   # Base output name (without extension)
   base_name <- tools::file_path_sans_ext(basename(f))
