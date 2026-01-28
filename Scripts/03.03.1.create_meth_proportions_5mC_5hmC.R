@@ -6,7 +6,7 @@
 library(data.table)
 
 # Define modification type
-mod <- "5mC" # 5mC and 5hmC
+mod <- "5hmC" # 5mC and 5hmC
 
 # Set working directory and output directory
 setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/", mod, "/"))
@@ -32,7 +32,7 @@ for (f in files) {
   dt[, mpct := X / N]
   
   # Keep only relevant columns for BED4 compatibility
-  dt_final <- dt[, .(chr, start, end, mpct)]
+  dt_final <- dt[, .(chr, start, end, mpct, N)]
   
   # Define output file name
   outfile <- file.path(
