@@ -24,7 +24,7 @@ for (f in files) {
   )
   
   # Filter rows with coverage > 1
-  dt <- dt[N > 1]
+  dt <- dt[N > 4]
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
