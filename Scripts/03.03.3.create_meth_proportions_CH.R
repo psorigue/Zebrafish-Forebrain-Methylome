@@ -34,7 +34,7 @@ for(f in files) {
   dt[, mpct := X / N]
 
   # Exclude mitochondrial chromosome
-  dt <- dt[chr != "chrM"]
+  dt <- dt[chr != "NC_002333.2"]
   
   # Split by pattern
   pat_list <- split(dt, by = "pattern", keep.by = TRUE)

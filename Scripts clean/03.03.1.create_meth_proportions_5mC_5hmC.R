@@ -32,7 +32,7 @@ for (f in files) {
   dt[, mpct := X / N]
 
   # Exclude mitochondrial chromosome
-  dt <- dt[chr != "chrM"]
+  dt <- dt[chr != "NC_002333.2"]
   
   # Keep only relevant columns for BED4 compatibility
   dt_final <- dt[, .(chr, start, end, mpct, N)]

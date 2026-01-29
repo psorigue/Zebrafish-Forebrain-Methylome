@@ -31,7 +31,7 @@ for(f in files) {
   dt <- dt[N > 4]
 
   # Exclude mitochondrial chromosome
-  dt <- dt[chr != "chrM"]
+  dt <- dt[chr != "NC_002333.2"]
   
   # Calculate methylation ratio
   dt[, mpct := X / N]

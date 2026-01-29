@@ -30,7 +30,7 @@ for (f in files) {
   dt[, mpct := X / N]
 
   # Exclude mitochondrial chromosome
-  dt <- dt[chr != "chrM"]
+  dt <- dt[chr != "NC_002333.2"]
   
   # Split by strand and keep only BED4 columns: chr, start, end, mpct
   dt_pos <- dt[strand == "+", .(chr, start, end, mpct, N)]
