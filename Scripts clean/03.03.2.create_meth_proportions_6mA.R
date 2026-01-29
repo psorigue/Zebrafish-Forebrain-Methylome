@@ -28,6 +28,9 @@ for (f in files) {
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
+
+  # Exclude mitochondrial chromosome
+  dt <- dt[chr != "chrM"]
   
   # Split by strand and keep only BED4 columns: chr, start, end, mpct
   dt_pos <- dt[strand == "+", .(chr, start, end, mpct, N)]

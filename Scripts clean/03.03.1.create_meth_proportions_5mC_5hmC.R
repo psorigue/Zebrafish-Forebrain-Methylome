@@ -30,6 +30,9 @@ for (f in files) {
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
+
+  # Exclude mitochondrial chromosome
+  dt <- dt[chr != "chrM"]
   
   # Keep only relevant columns for BED4 compatibility
   dt_final <- dt[, .(chr, start, end, mpct, N)]

@@ -27,6 +27,9 @@ for (f in files) {
   
   # Filter coverage
   dt <- dt[N > 4]
+
+  # Exclude mitochondrial chromosome
+  dt <- dt[chr != "chrM"]
   
   # Calculate methylation ratio
   dt[, mpct := X / N]

@@ -32,6 +32,9 @@ for(f in files) {
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
+
+  # Exclude mitochondrial chromosome
+  dt <- dt[chr != "chrM"]
   
   # Split by pattern
   pat_list <- split(dt, by = "pattern", keep.by = TRUE)
