@@ -40,7 +40,7 @@ for (f in files) {
     paste0(tools::file_path_sans_ext(basename(f)), "_mpct.txt")
   )
   # Write output
-  fwrite(dt_final, outfile, sep = "\t")
+  fwrite(dt_final, outfile, col.names = F, sep = "\t")
   
   # Clean up memory
   rm(dt, dt_final)

@@ -41,9 +41,9 @@ for (f in files) {
   outfile_neg <- file.path(out_dir, paste0(base_name, "_mpct_neg.txt"))
   
   # Write files
-  fwrite(dt_pos, outfile_pos, sep = "\t")
-  fwrite(dt_neg, outfile_neg, sep = "\t")
-  
+  fwrite(dt_pos, outfile_pos, col.names = F, sep = "\t")
+  fwrite(dt_neg, outfile_neg, col.names = F, sep = "\t")
+
   # Clean up memory
   rm(dt, dt_pos, dt_neg)
   gc()
