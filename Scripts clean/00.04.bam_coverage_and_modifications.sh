@@ -55,6 +55,8 @@ for num in {01..06} ; do
 
     bam="${path_bam}/barcode${num}_aligned_filt.bam"
 
+    echo "sample ${num}
+
     modkit summary --filter-threshold C:0.8 --filter-threshold A:0.8 -n 100000 -t $thr $bam
     
 done > "$path_stats"/modifications_summary_modkit.txt
