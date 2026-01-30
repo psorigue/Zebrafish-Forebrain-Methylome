@@ -32,9 +32,9 @@ for (f in files) {
   # Calculate methylation ratio
   dt[, mpct := X / N]
   
-  # Split by strand and keep only BED4 columns: chr, start, end, mpct
-  dt_pos <- dt[strand == "+", .(chr, start, end, mpct, N)]
-  dt_neg <- dt[strand == "-", .(chr, start, end, mpct, N)]
+  # Split by strand and keep only BED4 columns: chr, start, end, mpct, strand
+  dt_pos <- dt[strand == "+", .(chr, start, end, mpct, N, strand)]
+  dt_neg <- dt[strand == "-", .(chr, start, end, mpct, N, strand)]
   
   # Base output name (without extension)
   base_name <- tools::file_path_sans_ext(basename(f))

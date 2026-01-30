@@ -44,8 +44,8 @@ for(f in files) {
     dt_ctx <- pat_list[[pat]]
     
     # Split by strand
-    dt_pos <- dt_ctx[strand == "+", .(chr, start, end, mpct, N)]
-    dt_neg <- dt_ctx[strand == "-", .(chr, start, end, mpct, N)]
+    dt_pos <- dt_ctx[strand == "+", .(chr, start, end, mpct, N, strand)]
+    dt_neg <- dt_ctx[strand == "-", .(chr, start, end, mpct, N, strand)]
     
     # Base output name
     base_name <- tools::file_path_sans_ext(basename(f))
