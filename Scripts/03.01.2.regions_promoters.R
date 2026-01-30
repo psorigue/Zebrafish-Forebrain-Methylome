@@ -29,8 +29,11 @@ df_prom_clean <- df_prom[!df_prom$seqnames == "NC_002333.2",]
 # Covert to 0-based
 df_prom_clean$start <- df_prom_clean$start - 1
 
+# Add dummy column to match bed format
+df_prom_clean$dum <- 0
+
 # Reduce columns
-df_red <- df_prom_clean[,c("seqnames", "start", "end", "tx_name")]
+df_red <- df_prom_clean[,c("seqnames", "start", "end", "tx_name", "dum", "strand")]
 
 # Write file
 file_name <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/regions/promoters.bed"
