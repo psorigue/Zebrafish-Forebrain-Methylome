@@ -29,12 +29,12 @@ for(f in files) {
   
   # Filter coverage
   dt <- dt[N > 4]
-
-  # Exclude mitochondrial chromosome
-  dt <- dt[chr != "NC_002333.2"]
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
+
+  # Exclude mitochondrial chromosome
+  dt <- dt[chr != "NC_002333.2"]
   
   # Split by pattern
   pat_list <- split(dt, by = "pattern", keep.by = TRUE)
@@ -44,8 +44,8 @@ for(f in files) {
     dt_ctx <- pat_list[[pat]]
     
     # Split by strand
-    dt_pos <- dt_ctx[strand == "+", .(chr, start, end, mpct, N)]
-    dt_neg <- dt_ctx[strand == "-", .(chr, start, end, mpct, N)]
+    dt_pos <- dt_ctx[strand == "+", .(chr, start, end, mpct, N, strand)]
+    dt_neg <- dt_ctx[strand == "-", .(chr, start, end, mpct, N, strand)]
     
     # Base output name
     base_name <- tools::file_path_sans_ext(basename(f))

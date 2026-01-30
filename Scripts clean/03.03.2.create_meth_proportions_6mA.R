@@ -25,16 +25,16 @@ for (f in files) {
   
   # Filter rows with coverage > 1
   dt <- dt[N > 4]
-  
-  # Calculate methylation ratio
-  dt[, mpct := X / N]
 
   # Exclude mitochondrial chromosome
   dt <- dt[chr != "NC_002333.2"]
   
-  # Split by strand and keep only BED4 columns: chr, start, end, mpct
-  dt_pos <- dt[strand == "+", .(chr, start, end, mpct, N)]
-  dt_neg <- dt[strand == "-", .(chr, start, end, mpct, N)]
+  # Calculate methylation ratio
+  dt[, mpct := X / N]
+  
+  # Split by strand and keep only BED4 columns: chr, start, end, mpct, strand
+  dt_pos <- dt[strand == "+", .(chr, start, end, mpct, N, strand)]
+  dt_neg <- dt[strand == "-", .(chr, start, end, mpct, N, strand)]
   
   # Base output name (without extension)
   base_name <- tools::file_path_sans_ext(basename(f))
@@ -46,7 +46,7 @@ for (f in files) {
   # Write files
   fwrite(dt_pos, outfile_pos, col.names = F, sep = "\t")
   fwrite(dt_neg, outfile_neg, col.names = F, sep = "\t")
-  
+
   # Clean up memory
   rm(dt, dt_pos, dt_neg)
   gc()

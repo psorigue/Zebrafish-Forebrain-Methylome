@@ -1,3 +1,5 @@
+# This script creates a bed file with promoter regions (2kb upstream TSS) from GTF annotation
+
 library(GenomicFeatures)
 library(dplyr)
 
