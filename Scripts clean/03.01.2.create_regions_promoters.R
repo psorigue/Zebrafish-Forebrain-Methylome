@@ -39,7 +39,12 @@ df_prom_clean$start <- df_prom_clean$start - 1
 df_prom_clean$dum <- 0
 
 # Reduce columns
-df_red <- df_prom_clean[,c("seqnames", "start", "end", "tx_name", "dum", "strand")]
+df_red <- df_prom_clean[,c("seqnames", "start", "end", "GENEID", "dum", "strand")]
+
+# Delete promoters that comprise the same region, strand and gene (transcripts with the same TSS)
+df_red_unique <- df_red %>%
+  distinct(seqnames, start, end, strand, GENEID, .keep_all = TRUE)
 
 # Write file
-write.table(df_red, file = out_file, sep = "\t", col.names = F, row.names = F, quote = F)
+file_name <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/regions/promoters.bed"
+write.table(df_red_unique, file = file_name, sep = "\t", col.names = F, row.names = F, quote = F)
