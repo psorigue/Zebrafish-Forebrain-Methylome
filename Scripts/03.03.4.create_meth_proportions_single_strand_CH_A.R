@@ -8,7 +8,7 @@ library(data.table) # v.1.18
 # ===============================
 mod <- "ch"
 path_in <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/", mod)
-path_out <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_proportions/", mod, "/")
+path_out <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_proportions/", mod, "_ss/")
 dir.create(path_out, recursive = TRUE, showWarnings = FALSE)
 
 files <- list.files(path_in, pattern="\\.txt$", full.names=TRUE)
