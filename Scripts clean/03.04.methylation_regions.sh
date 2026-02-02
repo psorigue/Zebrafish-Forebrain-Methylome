@@ -8,8 +8,8 @@ regions_name="genome_50kb_bins" # genome_50kb_bins, genes, promoters, cgi
 region_file=~/fil/Methylome/methylation_regions/regions/"$regions_name".bed 
 
 # Define paths
-path_positions=~/fil/Methylome/Data_methylation/meth_proportions/
-path_out=~/fil/Methylome/methylation_regions/"$regions_name"/
+path_positions=~/fil/Methylome/Data_methylation/datasets_proportions/
+path_out=~/fil/Methylome/methylation_regions/output/"$regions_name"/
 
 
 mkdir -p "$path_out"

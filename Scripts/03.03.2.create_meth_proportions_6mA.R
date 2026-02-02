@@ -7,7 +7,7 @@ library(data.table)
 
 # Set working directory and output directory
 setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/6mA/"))
-out_dir <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/meth_proportions/6mA")
+out_dir <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_proportions/6mA")
 dir.create(out_dir, showWarnings = F, recursive = T)
 
 # Process all .txt files in current directory

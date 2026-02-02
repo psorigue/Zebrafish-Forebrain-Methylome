@@ -46,5 +46,4 @@ df_red_unique <- df_red %>%
   distinct(seqnames, start, end, strand, GENEID, .keep_all = TRUE)
 
 # Write file
-file_name <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/regions/promoters.bed"
-write.table(df_red_unique, file = file_name, sep = "\t", col.names = F, row.names = F, quote = F)
+write.table(df_red_unique, file = out_file, sep = "\t", col.names = F, row.names = F, quote = F)

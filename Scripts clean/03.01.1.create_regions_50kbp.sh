@@ -5,7 +5,7 @@
 
 # Set paths
 genome_index=~/fil//Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna.fai
-path_out=~/fil/Methylome/methylation_levels/regions/
+path_out=~/fil/Methylome/methylation_regions/regions/
 
 mkdir -p $path_out
 
