@@ -1,7 +1,7 @@
 library(tidyverse)
 library(scales)
 
-file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1B.MAPQ_distribution/mapq_distr.tsv"
+file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1B.MAPQ_distribution/mapq_distribution.tsv"
 
 mapq <- read.csv(file, col.names = c("sample", "mapq"), sep = "\t")
 

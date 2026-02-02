@@ -1,46 +1,28 @@
 
 
-# Remove postive strand rows from "neg" file and opposite
+# Concatenate files adding replicate column
+mod <- "5mC"
+an <- "promoters"
+N <- 10
+strand <- "pos"
+sign <- "+"
 
-# Reduce columns
+setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/output/", an, "/", mod))
 
-# Plot
+num <- c("1", "2", "3", "4", "5", "6")
+files <- paste0("meth_mean_", mod, "_rep", num, "_", an, ".txt")
 
-# For regions not needing strand: make this columns: chr start end region_id sample replicate mean_meth mean_cov motif
+# Read and add replicate column
+df_list <- lapply(seq_along(files), function(i) {
+  read.csv(files[i], sep = "\t", header = F) %>% mutate(replicate = paste0("rep", i))
+})
 
-Minimum solid set:
-  
-  Density of mean methylation (per modification)
+# Combine all
+df_all <- bind_rows(df_list)
 
-Violin/boxplot per motif
-
-Replicate scatter
-
-Coverage vs methylation
-
-That already tells a coherent story.
+# Remove regions with less than N occurrences (sites covered)
+df_fin <- df_all[df_all$V9 > N,] # col 7 or 9 depends if there is strandedness in regions
 
 
-# 1. Strand:
-ggplot(df, aes(x = strand, y = mean_meth)) +
-  geom_violin(trim = FALSE) +
-  geom_boxplot(width = 0.1) +
-  theme_bw()
 
-# 2. Coverage vs methylation
-ggplot(df, aes(mean_cov, mean_meth)) +
-  geom_point(alpha = 0.3) +
-  theme_bw()
-
-# 3. Coverage distribution
-ggplot(df, aes(mean_cov)) +
-  geom_histogram(bins = 50) +
-  scale_x_log10() +
-  theme_bw()
-
-# Methylation distribution
-ggplot(df, aes(mean_meth)) +
-  geom_density() +
-  theme_bw()
-
-# Replicate concordance: make columns
+write.table(df_fin, paste0(mod, "_all_", an, ".txt"), quote = F, sep = "\t", col.names = F, row.names = F)
