@@ -15,7 +15,7 @@ out_dir <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterje
 dir.create(out_dir, showWarnings = F, recursive = T)
 
 
-samples <- c("02", "03", "04", "05")
+samples <- c("01", "02", "03", "04", "05", "06")
 
 for (sam in samples) {
   #sam <- "02"
