@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Script to calculate mean methylation levels in defined genomic regions (50kb bins, gene_bodies, promoters, CGIs) for CpG (5mC, 5hmC), and CH (5mC) contexts. Bedtools map function is used to compute mean methylation levels in each region, mean coverage and number of covered sites for that particular motif. Coverage filtering (> or =5) is already applied in previous scripts.
+# In case strand information is present (6mA, CH), add '-s' option to bedtools map.
 # Bedtools v2.31.1
 
 # Define regions

@@ -24,10 +24,10 @@ Below is an index of scripts in the `Scripts/` folder organized by the first num
    - [05.02.create_regions_promoters.R](Scripts/05.02.create_regions_promoters.R) — Create promoter regions (R).
 
 6. **06 — Methylation region creation**
-   - [06.03.1.CpG_create_meth_regions.R](Scripts%20clean/06.03.1.CpG_create_meth_regions.R) — Create region-level methylation for CpG motif (R).
-   - [06.03.2.A_create_meth_regions_6mA.R](Scripts%20clean/06.03.2.A_create_meth_regions_6mA.R) — Create region-level methylation for A motif (R).
-   - [06.03.3.CH_create_meth_regions.R](Scripts%20clean/06.03.3.CH_create_meth_regions.R) — Create region-level methylation for CH motifs (R).
-   - [06.03.4.CH_single_strand_create_meth_regions.R](Scripts%20clean/06.03.4.CH_single_strand_create_meth_regions.R) — CH single-strand regions (R).
+   - [06.03.1.CpG_create_meth_regions.R](Scripts%20clean/06.03.1.CpG_create_meth_regions.R) — Create dataset for CpG motif, to be used in script 06.04 (R).
+   - [06.03.2.A_create_meth_regions_6mA.R](Scripts%20clean/06.03.2.A_create_meth_regions_6mA.R) — Create dataset for A motif, with strand information, to be used in script 06.04 (R).
+   - [06.03.3.CH_create_meth_regions.R](Scripts%20clean/06.03.3.CH_create_meth_regions.R) — Create dataset for nonCpG CH motif, with strand information, to be used in script 06.04 (R).
+   - [06.03.4.CH_single_strand_create_meth_regions.R](Scripts%20clean/06.03.4.CH_single_strand_create_meth_regions.R) — Create dataset for nonCpG CH motif, without strand information, to be used in script 06.04 (R).
    - [06.04.methylation_regions.sh](Scripts%20clean/06.04.methylation_regions.sh) — Map methylation datasets onto regions using `bedtools map`.
 
 7. **07 — Whole-brain & Forebrain comparisons**
