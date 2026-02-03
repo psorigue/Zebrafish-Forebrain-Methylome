@@ -1,4 +1,5 @@
-# Create promoters regions (2kb upstream TSS) in BED format for later methylation level calculation. For CG islands, we annotated manually using UCSC genome browser.
+# This script creates promoters regions (2kb upstream TSS) in BED format for later methylation level calculation. 
+# It uses the GTF annotation file to create a TxDb object and extract promoter regions.
 
 library(GenomicFeatures) # version 1.62
 library(dplyr) # version 1.1.4

@@ -5,31 +5,31 @@
 # Modkit v0.5.0
 
 # Define paths
-path_bam=~/fil/Epi/Data_genomics/bams_filtered/
-path_stats=~/fil/Methylome/QC/bam_stats/
+PATH_BAM="$HOME/fil/Epi/Data_genomics/bams_filtered"
+PATH_STATS="$HOME/fil/Methylome/QC/bam_stats"
 
 # Set number of threads
-thr=2
+THREADS=2
 
-mkdir -p "$path_stats" "$path_stats"/ind_samples/
+# Create output directories
+mkdir -p "${PATH_STATS}" "${PATH_STATS}/ind_samples"
 
 # 1. Coverage for Individual samples
-for num in {01..06} ; do
+for SAMPLE in {01..06} ; do
     
-    bam="${path_bam}/barcode${num}_aligned_filt.bam"
-    echo $bam
+    BAM_FILE="${PATH_BAM}/barcode${SAMPLE}_aligned_filt.bam"
+    echo "${BAM_FILE}"
     # Per-chromosome coverage. Output: 
-    samtools coverage $bam > "${path_stats}/ind_samples/barcode${num}.stats"
+    samtools coverage "${BAM_FILE}" > "${PATH_STATS}/ind_samples/barcode${SAMPLE}.stats"
     
 done
 
-
 # 2. Coverage for all samples together
-## Per-chromosome coverage values
-samtools coverage "$path_bam"/barcode{01..06}_aligned_filt.bam > "${path_stats}/all_samples.stats"
+# Per-chromosome coverage values
+samtools coverage "${PATH_BAM}"/barcode{01..06}_aligned_filt.bam > "${PATH_STATS}/all_samples.stats"
 
 # Genome-wide coverage values
-samtools coverage "$path_bam"/barcode{01..06}_aligned_filt.bam \
+samtools coverage "${PATH_BAM}"/barcode{01..06}_aligned_filt.bam \
     | awk '
     NR==1 { next }                          # skip header
     $1 == "NC_002333.2" { next }             # exclude mitochondrial DNA
@@ -47,19 +47,20 @@ samtools coverage "$path_bam"/barcode{01..06}_aligned_filt.bam \
       print "Mean_depth:",             depth_sum / len
       print "Mean_baseQ:",             baseq_sum / covbases
       print "Mean_mapQ:",              mapq_sum / reads
-    }' > "${path_stats}/genome_general_stats.txt"
+    }' > "${PATH_STATS}/genome_general_stats.txt"
     
 
-# 3. Summary of the modifications:
-for num in {01..06} ; do
+# 3. Summary of the modifications (built-in modkit function)
+for SAMPLE in {01..06} ; do
 
-    bam="${path_bam}/barcode${num}_aligned_filt.bam"
+    # Define input BAM file
+    BAM_FILE="${PATH_BAM}/barcode${SAMPLE}_aligned_filt.bam"
+    echo "sample ${SAMPLE}"
 
-    echo "sample ${num}
-
-    modkit summary --filter-threshold C:0.8 --filter-threshold A:0.8 -n 100000 -t $thr $bam
+    # Compute modification summary
+    modkit summary --filter-threshold C:0.8 --filter-threshold A:0.8 -n 100000 -t "${THREADS}" "${BAM_FILE}"
     
-done > "$path_stats"/modifications_summary_modkit.txt
+done > "${PATH_STATS}/modifications_summary_modkit.txt"
 
 
 exit

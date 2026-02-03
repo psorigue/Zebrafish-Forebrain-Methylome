@@ -3,14 +3,14 @@ library(tidyr)
 
 
 regions_name<- "cgi"
-path_fb <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/forebrain_datasets/methylation_regions/", regions_name, "/")
-path_wb <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_regions/", regions_name, "/")
+path_fb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/forebrain_datasets/methylation_regions/cgi/"
+path_wb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_regions/cgi/"
 
-# Threshold number sites per region and coverage
+# Threshold number sites per region (N) and mean coverage (C)
 N <- 20
 C <- 10
 
-# Example: combine all forebrain replicates
+# 1. Load and process forebrain and whole-brain datasets. The output has columns: chr, start, end, name, mean_meth, mean_cov, nCpG
 forebrain <- list.files(path_fb, full.names=TRUE) %>%
   lapply(function(f){
     df <- read.table(f, header=FALSE, col.names=c("chr","start","end", "name", "meth","cov","nCpG"))
@@ -40,7 +40,7 @@ wholebrain <- list.files(path_wb, full.names=TRUE) %>%
     # Convert numeric columns explicitly
     df$start <- as.numeric(df$start)
     df$end <- as.numeric(df$end)
-    df$meth <- as.numeric(df$meth) / 100 # To match wholebrain
+    df$meth <- as.numeric(df$meth) / 100 # To match forebrain dataset (percentage to proportion)
     df$cov <- as.numeric(df$cov)
     df$nCpG <- as.numeric(df$nCpG)
     df
@@ -55,19 +55,18 @@ wholebrain <- list.files(path_wb, full.names=TRUE) %>%
     nCpG = sum(nCpG, na.rm=TRUE),
     .groups="drop")
 
-#View(wholebrain)
 
-# Merge datasets on the same regions
+# 2. Merge datasets on the same regions
 merged <- inner_join(forebrain, wholebrain,
                      by=c("chr","start","end"),
                      suffix=c("_FB","_WB"))
 
-# Keep only regions with at least N CpGs in both datasets and coverage threshold
+# 3. Keep only regions with at least N CpGs in both datasets and coverage threshold
 merged_filtered <- merged %>%
   filter(nCpG_FB >= N & nCpG_WB >= N) %>%
   filter(mean_cov_FB >= C & mean_cov_WB >= C)
 
-# See how threshold affects
+# OPTIONAL: See how threshold of number of sites affects
 thresholds <- 1:30
 cors <- sapply(thresholds, function(t){
   df <- merged %>% filter(nCpG_FB >= t & nCpG_WB >= t)
@@ -75,14 +74,13 @@ cors <- sapply(thresholds, function(t){
 })
 plot(thresholds, cors, type="b", xlab="Min CpG per region", ylab="Pearson correlation")
 
-# Simple Pearson and Spearman
+# 4. Simple Pearson and Spearman
 cor_pearson <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, method="pearson")
 cor_spearman <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, method="spearman")
 
-
-# Scatter plot
+# 5. Scatter plot to visualize correlation
 library(ggplot2)
-p <- ggplot(merged, aes(x=mean_meth_WB, y=mean_meth_FB)) +
+p <- ggplot(merged_filtered, aes(x=mean_meth_WB, y=mean_meth_FB)) +
   geom_point(alpha=0.3) +
   geom_smooth(method="lm", color="red") +
   xlab("Whole-brain RRBS") + ylab("Forebrain ONT") +
@@ -92,15 +90,7 @@ p
 out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_fb_vs_wb.pdf"
 ggsave(out_file, p)
 
-#install.packages("weights")
-library(weights)
-wtd.cor(merged$mean_meth_FB, merged$mean_meth_WB, weight=merged$nCpG_FB + merged$nCpG_WB)
-
-
-
-
-
-# Directional differences
+# 6. Analyze directional differences in methylation
 merged_filtered <- merged_filtered %>%
   mutate(delta = mean_meth_FB - mean_meth_WB)
 
@@ -136,7 +126,9 @@ merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
 out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_fb_vs_wb2.pdf"
 ggsave(out_file, p)
 
-merged_filtered[merged_filtered$direction == "Hypo in FB",]
+# Order and write merged_filtered table to file
+out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_FB_vs_WB.txt"
 
-# Identify what regions are in tails, and go back to them in the regions file
-# I added a "name" column that will allow us to identify it
+merged_filtered_ord <- merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
+write.table(merged_filtered_ord, out_file, sep = "\t", quote = F, col.names = T)
+

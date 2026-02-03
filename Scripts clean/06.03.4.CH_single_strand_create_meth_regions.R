@@ -1,16 +1,17 @@
-# Script to create methylation proportions files from raw counts files for 5mC and 5hmC datasets. 
-# As input, it takes the output of script 03.02.pileup.sh: TXT files with the following columns: chr, start, end, N (depth), X (methylated reads), strand. In CH case, it also includes a motif column to be able to separate contexts (CA, CC, CT).
+# Script to create methylation proportions files from raw counts files for 5mC modifications in CH motifs. 
+# As input, it takes the output of script 02.pileup.sh: TXT files with the following columns: chr, start, end, N (depth), X (methylated reads), strand, and a motif column to be able to separate contexts (CA, CC, CT).
+# This script creates single-strand files instead of separate files for each strand, to compute overall methylation levels in later analyses.
 
 library(data.table) # v.1.18
 
 # ===============================
 # 1. Paths
 # ===============================
-mod <- "ch"
-path_in <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/", mod)
-path_out <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_proportions/", mod, "/")
+path_in <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/ch"
+path_out <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_proportions/ch_ss/"
 dir.create(path_out, recursive = TRUE, showWarnings = FALSE)
 
+# Define input files by full path
 files <- list.files(path_in, pattern="\\.txt$", full.names=TRUE)
 
 # ===============================
@@ -32,7 +33,7 @@ for(f in files) {
   
   # Calculate methylation ratio
   dt[, mpct := X / N]
-
+  
   # Exclude mitochondrial chromosome
   dt <- dt[chr != "NC_002333.2"]
   
@@ -43,25 +44,21 @@ for(f in files) {
   for(pat in names(pat_list)) {
     dt_ctx <- pat_list[[pat]]
     
-    # Split by strand
-    dt_pos <- dt_ctx[strand == "+", .(chr, start, end, mpct, N, strand)]
-    dt_neg <- dt_ctx[strand == "-", .(chr, start, end, mpct, N, strand)]
-    
+    # Combine strands into single file
+    dt_out <- dt_ctx[, .(chr, start, end, mpct, N, strand)]
+
     # Base output name
     base_name <- tools::file_path_sans_ext(basename(f))
     
     # Output files
-    outfile_pos <- file.path(path_out, paste0(base_name, "_", pat, "_pos_mpct.txt"))
-    outfile_neg <- file.path(path_out, paste0(base_name, "_", pat, "_neg_mpct.txt"))
+    outfile <- file.path(path_out, paste0(base_name, "_", pat, "_mpct.txt"))
     
     # Write only if non-empty
-    if(nrow(dt_pos) > 0) fwrite(dt_pos, outfile_pos, sep="\t", col.names=FALSE, quote=FALSE)
-    if(nrow(dt_neg) > 0) fwrite(dt_neg, outfile_neg, sep="\t", col.names=FALSE, quote=FALSE)
+    fwrite(dt_out, outfile, sep="\t", col.names=FALSE, quote=FALSE)
     
-    # Clean up
-    rm(dt_pos, dt_neg)
   }
   
+  # Free memory
   rm(dt, dt_ctx, pat_list)
   gc()
 }

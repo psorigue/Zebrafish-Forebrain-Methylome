@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Script to map bisulfite sequencing reads from zebrafish whole-brain methylome samples to the reference genome using Bismark.
+# Publication: Chaterjee et al., 2014
+# Bismark v0.25.1
+
+# Set path to fastq files
+PATH_RUNS="$HOME/fil/Methylome/Chaterjee/fastq_runs"
+
+# Define sample names
+SAMPLES=(M1 M2 F1 F2)
+
+# Set number of threads
+THREADS=8
+
+mkdir -p "${HOME}/fil/Methylome/Chaterjee/mapping"
+cd "${HOME}/fil/Methylome/Chaterjee/mapping"
+
+for SAMPLE in "${SAMPLES[@]}" ; do
+
+    FASTQ_FILE="${PATH_RUNS}/${SAMPLE}.fastq"
+    
+    mkdir -p "${SAMPLE}"
+    
+    # Bismark mapping
+    # N 1 increases sensitivity, it makes it slower
+    bismark \
+      --genome_folder ../genome/ \
+      --fastq "${FASTQ_FILE}" \
+      -N 1 \
+      --parallel "${THREADS}" \
+      -p "${THREADS}" \
+      --output_dir "${SAMPLE}"
+  
+done 
+
+

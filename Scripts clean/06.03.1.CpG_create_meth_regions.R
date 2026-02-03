@@ -1,6 +1,5 @@
-
-# Script to create methylation proportions files from raw counts files for 5mC and 5hmC datasets. 
-# As input, it takes the output of script 03.02.pileup.sh: TXT files with the following columns: chr, start, end, N (depth), X (methylated reads), strand. 
+# Script to create methylation proportions files from raw counts files for 5mC and 5hmC modifications in CpG context. 
+# As input, it takes the output of script 02.pileup.sh: TXT files with the following columns: chr, start, end, N (depth), X (methylated reads), strand. 
 
 # Load required library
 library(data.table)
