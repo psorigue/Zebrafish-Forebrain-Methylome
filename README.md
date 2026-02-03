@@ -3,7 +3,6 @@ Scripts used in Scientific Publication
 
 ## Scripts index
 
-
 1. **01 — Preprocessing & QC**
    - [01.01.BAM_qc.sh](Scripts/01.01.BAM_qc.sh) — Run Qualimap on aligned BAMs; extract read-length statistics.
    - [01.02.filter_BAMs.sh](Scripts/01.02.filter_BAMs.sh) — Filter BAMs by MAPQ and read length; sort, index, and produce MAPQ/read-count stats.
@@ -38,3 +37,5 @@ Scripts used in Scientific Publication
    - [07.05.FB_meth_regions.sh](Scripts/07.05.FB_meth_regions.sh) — Compute region-level methylation for forebrain samples.
    - [07.06.FB_vs_WB_cgi.R](Scripts/07.06.FB_vs_WB_cgi.R) — (R) Compare forebrain vs whole-brain methylation at CGI regions.
 
+**Notes**
+Along the files and scripts, the notation "5mC" and "5hmC" refer to CpG-associated cytosine methylation, while "CH" refer to nonCpG-associated cytosine methylation
