@@ -1,8 +1,8 @@
 # Zebrafish-Forebrain-Methylome
 Scripts used in Scientific Publication
 
-## Scripts index (ordered by leading number)
-Below is an index of scripts in the `Scripts/` folder organized by the first numeric prefix (leading number). Each leading number is a top-level entry; scripts with second-number prefixes are listed as sub-items.
+## Scripts index
+
 
 1. **01 — Preprocessing & QC**
    - [01.01.BAM_qc.sh](Scripts/01.01.BAM_qc.sh) — Run Qualimap on aligned BAMs; extract read-length statistics.
