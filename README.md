@@ -17,7 +17,7 @@ Below is an index of scripts in the `Scripts/` folder organized by the first num
    - [03.modkit_compute_CpGs.sh](Scripts/03.modkit_compute_CpGs.sh) — Compute CpG sites in the reference and per-sample coverage counts.
 
 4. **04 — Motif proportions**
-   - [04.modification_proportions.sh](Scripts/04.modification_proportions.sh) — Compute motif counts/fractions (CH motifs) using `modkit motif evaluate`.
+   - [04.modification_proportions.sh](Scripts/04.modification_proportions.sh) — Compute motif counts/fractions (CH and A motifs) using `modkit motif evaluate`.
 
 5. **05 — Region definitions**
    - [05.01.create_regions_50kbp.sh](Scripts/05.01.create_regions_50kbp.sh) — Create 50 kb genome windows (exclude mitochondrial chr).
