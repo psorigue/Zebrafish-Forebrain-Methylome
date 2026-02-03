@@ -1,13 +1,12 @@
 
 
 # Concatenate files adding replicate column
-mod <- "5mC"
-an <- "promoters"
+mod <- "CA"
+an <- "genome_50kb_bins"
 N <- 10
-strand <- "pos"
-sign <- "+"
 
-setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/output/", an, "/", mod))
+
+setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/output/", an, "/", mod, "_ss/"))
 
 num <- c("1", "2", "3", "4", "5", "6")
 files <- paste0("meth_mean_", mod, "_rep", num, "_", an, ".txt")
@@ -21,7 +20,7 @@ df_list <- lapply(seq_along(files), function(i) {
 df_all <- bind_rows(df_list)
 
 # Remove regions with less than N occurrences (sites covered)
-df_fin <- df_all[df_all$V9 > N,] # col 7 or 9 depends if there is strandedness in regions
+df_fin <- df_all[df_all$V7 > N,] # col 7 or 9 depends if there is strandedness in regions
 
 
 

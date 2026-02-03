@@ -2,10 +2,13 @@ library(dplyr)
 library(tidyr)
 
 
-regions_name<- "genome_50kb_bins"
+regions_name<- "cgi"
 path_fb <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/forebrain_datasets/methylation_regions/", regions_name, "/")
 path_wb <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_regions/", regions_name, "/")
 
+# Threshold number sites per region and coverage
+N <- 20
+C <- 10
 
 # Example: combine all forebrain replicates
 forebrain <- list.files(path_fb, full.names=TRUE) %>%
@@ -24,10 +27,12 @@ forebrain <- list.files(path_fb, full.names=TRUE) %>%
   filter(!is.na(meth) & !is.na(cov)) %>%
   group_by(chr,start,end) %>%
   summarise(
-    mean_meth = mean(meth, na.rm=TRUE),
-    mean_cov = mean(cov, na.rm=TRUE),
-    nCpG = sum(nCpG, na.rm=TRUE),
-    .groups="drop")
+    mean_meth = mean(meth, na.rm = TRUE),
+    mean_cov  = mean(cov, na.rm = TRUE),
+    nCpG      = sum(nCpG, na.rm = TRUE),
+    name      = first(name),
+    .groups   = "drop"
+  )
 
 wholebrain <- list.files(path_wb, full.names=TRUE) %>%
   lapply(function(f){
@@ -50,7 +55,7 @@ wholebrain <- list.files(path_wb, full.names=TRUE) %>%
     nCpG = sum(nCpG, na.rm=TRUE),
     .groups="drop")
 
-
+#View(wholebrain)
 
 # Merge datasets on the same regions
 merged <- inner_join(forebrain, wholebrain,
@@ -58,8 +63,6 @@ merged <- inner_join(forebrain, wholebrain,
                      suffix=c("_FB","_WB"))
 
 # Keep only regions with at least N CpGs in both datasets and coverage threshold
-N <- 100
-C <- 10
 merged_filtered <- merged %>%
   filter(nCpG_FB >= N & nCpG_WB >= N) %>%
   filter(mean_cov_FB > C & mean_cov_WB > C)
@@ -79,12 +82,15 @@ cor_spearman <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, 
 
 # Scatter plot
 library(ggplot2)
-ggplot(merged, aes(x=mean_meth_WB, y=mean_meth_FB)) +
+p <- ggplot(merged, aes(x=mean_meth_WB, y=mean_meth_FB)) +
   geom_point(alpha=0.3) +
   geom_smooth(method="lm", color="red") +
   xlab("Whole-brain RRBS") + ylab("Forebrain ONT") +
   ggtitle(paste0("Pearson: ", round(cor_pearson,2),
                  " Spearman: ", round(cor_spearman,2)))
+
+out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_fb_vs_wb.pdf"
+ggsave(out_file, p)
 
 #install.packages("weights")
 library(weights)
@@ -99,7 +105,7 @@ merged_filtered <- merged_filtered %>%
   mutate(delta = mean_meth_FB - mean_meth_WB)
 
 # Classify changes
-threshold <- 20 # Percentage of delta
+threshold <- 10 # Percentage of delta
 merged_filtered <- merged_filtered %>%
   mutate(direction = case_when(
     delta > threshold ~ "Hyper in FB",
@@ -109,7 +115,7 @@ merged_filtered <- merged_filtered %>%
 table(merged_filtered$direction)
 
 # Histogram of delta methylation
-ggplot(merged_filtered, aes(x=delta, fill=direction)) +
+p <- ggplot(merged_filtered, aes(x=delta, fill=direction)) +
   geom_histogram(binwidth=2, position="stack", color="black", alpha=0.8) +
   geom_vline(xintercept=0, linetype="dashed", color="darkgray") +
   scale_fill_manual(values=c("Hypo in FB"="blue", "Hyper in FB"="red", "No change"="gray")) +
@@ -126,6 +132,10 @@ ggplot(merged_filtered, aes(x=delta, fill=direction)) +
   )
 
 
+out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_fb_vs_wb2.pdf"
+ggsave(out_file, p)
+
+merged_filtered[merged_filtered$direction == "Hypo in FB",]
 
 # Identify what regions are in tails, and go back to them in the regions file
 # I added a "name" column that will allow us to identify it
