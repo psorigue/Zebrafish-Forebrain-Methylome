@@ -1,5 +1,8 @@
-path <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1A.Read_length/"
+library(ggplot2)
+library(scales)
 
+path <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1A.Read_length/"
+out_file <- paste0(path, "read_length.pdf")
 
 ds <- read.csv(paste0(path, "read_length_rep01.txt"), header = F, col.names = "read_length")
 ds$replicate <- "rep1"
@@ -15,7 +18,7 @@ for (num in c("2", "3", "4", "5", "6")) {
 
 
 
-ggplot(ds, aes(x = read_length, fill = replicate)) +
+p <- ggplot(ds, aes(x = read_length, fill = replicate)) +
   geom_histogram(bins = 100, position = "stack") +
   scale_x_log10(
     labels = label_number(scale_cut = cut_si(unit = ""))
@@ -27,7 +30,8 @@ ggplot(ds, aes(x = read_length, fill = replicate)) +
   ) +
   theme_classic()
 
-
-ggplot(ds, aes(x = read_length, y = replicate, fill = replicate)) +
+b <- ggplot(ds, aes(x = read_length, y = replicate, fill = replicate)) +
   geom_violin(scale = "width", trim = TRUE) +
   scale_x_log10()
+
+ggsave(out_file, b)

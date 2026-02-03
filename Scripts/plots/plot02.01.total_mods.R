@@ -2,7 +2,7 @@
 file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/2A.total_mods//dataset.txt"
 
 ds <- read.csv(file, header = T, sep = "\t")
-
+ds$frac_mod <- ds$high_count / (ds$high_count + ds$mid_count + ds$low_count)
 
 # CpG
 # Subset for CG motif and codes m and h
@@ -13,14 +13,15 @@ df_CG <- ds %>%
 df_CG$replicate <- factor(df_CG$replicate, levels = unique(df_CG$replicate))
 
 # Boxplot
-ggplot(df_CG, aes(x = mod_code, y = frac_mod)) +
+p <- ggplot(df_CG, aes(x = mod_code, y = frac_mod)) +
   geom_boxplot(fill = c("steelblue", "tomato")) +
   theme_minimal() +
   labs(x = "Modification", y = "Fraction Modified", 
        title = "Fraction of Modification for CG Motifs Across Replicates") +
   scale_color_brewer(palette = "Set2")
-
-
+p
+out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/2A.total_mods/cpg.pdf"
+ggsave(out_file, p)
 
 # nonCpG (only m)
 # Subset for motifs CA, CC, CT and code m only
@@ -36,9 +37,12 @@ df_sum <- df_m %>%
 df_sum$motif <- factor(df_sum$motif, levels = c("CA", "CT", "CC"))
 
 # Boxplot: one box per motif, all replicates included as points
-ggplot(df_sum, aes(x = motif, y = sum_frac)) +
+b <- ggplot(df_sum, aes(x = motif, y = sum_frac)) +
   geom_boxplot(fill = c("steelblue", "tomato", "gold")) +
   theme_minimal() +
   labs(x = "Motif", y = "Fraction Modified (m only)",
        title = "Fraction of m Modification for CA, CC, CT Motifs Across Replicates") +
   scale_color_brewer(palette = "Set2")
+b
+out_file2 <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/2A.total_mods/noncpg.pdf"
+ggsave(out_file2, b)

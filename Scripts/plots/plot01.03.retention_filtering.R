@@ -1,8 +1,10 @@
 library(scales)
 
 file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1C.filtering/dataset.txt"
+out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1C.filtering/filtering.pdf"
 
 filtering <- read.csv(file, header = T, sep = "\t")
+filtering$stage <- factor(filtering$stage, levels = c("initial", "filtered"))
 
 pE <- ggplot(filtering, aes(x = replicate, y = read_count, fill = stage)) +
   geom_col(position = "dodge") +
@@ -17,3 +19,5 @@ pE <- ggplot(filtering, aes(x = replicate, y = read_count, fill = stage)) +
   ) +
   theme_classic()
 pE
+
+ggsave(out_file, pE)
