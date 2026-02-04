@@ -3,8 +3,8 @@ library(tidyr)
 
 
 regions_name<- "cgi"
-path_fb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/forebrain_datasets/methylation_regions/cgi/"
-path_wb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_regions/cgi/"
+path_fb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_cgi/forebrain/"
+path_wb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_cgi/whole-brain/"
 
 # Threshold number sites per region (N) and mean coverage (C)
 N <- 20
@@ -130,5 +130,5 @@ ggsave(out_file, p)
 out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_FB_vs_WB.txt"
 
 merged_filtered_ord <- merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
-write.table(merged_filtered_ord, out_file, sep = "\t", quote = F, col.names = T)
+write.table(merged_filtered_ord, out_file, sep = "\t", quote = F, col.names = T, row.names = F)
 
