@@ -46,5 +46,16 @@ df_red <- df_prom_clean[,c("seqnames", "start", "end", "GENEID", "dum", "strand"
 df_red_unique <- df_red %>%
   distinct(seqnames, start, end, strand, GENEID, .keep_all = TRUE)
 
+# Collapse GENEIDs that are the same in the rest of variables
+df_collapsed <- df_red_unique %>%
+  group_by(seqnames, start, end, strand, dum) %>%
+  summarise(
+    GENEID = paste(unique(GENEID), collapse = ";"),
+    .groups = "drop"
+  )
+
+# Reorder columns
+df_collapsed <- df_collapsed[,c("seqnames", "start", "end", "GENEID", "dum", "strand")]
+
 # Write file
-write.table(df_red_unique, file = out_file, sep = "\t", col.names = F, row.names = F, quote = F)
+write.table(df_collapsed, file = out_file, sep = "\t", col.names = F, row.names = F, quote = F)

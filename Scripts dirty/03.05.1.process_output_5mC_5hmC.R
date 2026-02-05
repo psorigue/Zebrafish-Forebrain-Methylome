@@ -2,8 +2,8 @@
 
 # Concatenate files adding replicate column
 mod <- "5mC"
-an <- "promoters_genes"
-N <- 10
+an <- "genes"
+N <- 20
 
 
 setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/output/", an, "/", mod))

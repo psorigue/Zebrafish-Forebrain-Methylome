@@ -1,8 +1,8 @@
 library(dplyr)
 
 mods <- c("CT", "CA", "CC")
-an <- "genome_50kb_bins"
-N <- 100
+an <- "promoters"
+N <- 10
 
 setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/output/", 
              an, "/ch/"))
@@ -30,7 +30,7 @@ all_mods_list <- lapply(mods, function(mod) {
   
   # Combine + filter
   bind_rows(df_list) %>%
-    filter(V7 > N)   # adjust column if needed
+    filter(V9 > N)   
 })
 
 # Combine all motifs into a single dataset
