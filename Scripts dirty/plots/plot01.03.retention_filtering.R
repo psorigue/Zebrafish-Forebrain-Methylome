@@ -1,7 +1,9 @@
 library(scales)
 
 file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1C.filtering/dataset.txt"
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1C.filtering/filtering.pdf"
+out_pdf <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1C.filtering/filtering.pdf"
+out_tiff <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1C.filtering/filtering.tiff"
+
 
 filtering <- read.csv(file, header = TRUE, sep = "\t")
 filtering$stage <- factor(filtering$stage, levels = c("initial", "filtered"))
@@ -33,4 +35,19 @@ pE <- ggplot(filtering, aes(x = replicate, y = read_count, fill = stage)) +
 
 pE
 
-ggsave(out_file, pE)
+ggsave(out_pdf, pE)
+
+# Make tiff
+{
+  tiff(
+    out_tiff,
+    width = 7,
+    height = 5,
+    units = "in",
+    res = 600,
+    compression = "lzw"
+  )
+  print(pE)
+  dev.off()
+  
+}

@@ -1,12 +1,13 @@
 library(ggplot2)
 library(scales)
 
-path <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1A.Read_length/"
-out_file <- paste0(path, "read_length.pdf")
+path <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1B.Read_length/"
+out_pdf <- paste0(path, "read_length.pdf")
+out_tiff <- paste0(path, "read_length.tiff") 
 
+
+# Not filtered (rl tag)
 ds <- read.csv(paste0(path, "read_length_rep01.txt"), header = F, col.names = "read_length")
-
-
 ds$replicate <- "rep1"
 
 # Read files into one dataset
@@ -17,7 +18,12 @@ for (num in c("2", "3", "4", "5", "6")) {
   ds <- rbind(ds, new_ds)
   
 }
-# Try with filtered
+b <- ggplot(ds, aes(x = read_length, y = replicate, fill = replicate)) +
+  geom_violin(scale = "width", trim = TRUE) +
+  scale_x_log10()
+b
+
+# Filtered
 ds <- read.csv("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/QC/read_length_filtered/rep1.txt", header = F, col.names = "read_length")
 ds$replicate <- "rep1"
 for (num in c("2", "3", "4", "5", "6")) {
@@ -53,8 +59,20 @@ p <- ggplot(ds, aes(x = read_length, fill = replicate)) +
   ) +
   theme_classic()
 p
-b <- ggplot(ds, aes(x = read_length, y = replicate, fill = replicate)) +
-  geom_violin(scale = "width", trim = TRUE) +
-  scale_x_log10()
-b
-ggsave(out_file, b)
+
+ggsave(out_pdf, p)
+
+# Make tiff
+{
+  tiff(
+    out_tiff,
+    width = 7,
+    height = 5,
+    units = "in",
+    res = 600,
+    compression = "lzw"
+  )
+  print(p)
+  dev.off()
+  
+}

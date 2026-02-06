@@ -1,8 +1,9 @@
 library(tidyverse)
 library(scales)
 
-file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1B.MAPQ_distribution/mapq_distribution.tsv"
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1B.MAPQ_distribution/mapq_distribution.pdf"
+file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/QC/qc_stats/mapq_distribution.tsv"
+out_pdf <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1A.MAPQ_distribution/mapq_distribution.pdf"
+out_tiff <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1A.MAPQ_distribution/mapq_distribution.tiff"
 
 mapq <- read.csv(file, col.names = c("sample", "mapq"), sep = "\t")
 
@@ -20,6 +21,7 @@ blue_reps <- c(
 )
 
 pC <- ggplot(mapq, aes(x = mapq, y = sample, fill = sample)) +
+  geom_vline(xintercept = 10, color = "gold", linetype = "dashed", linewidth = 0.6) +
   geom_violin(scale = "width", trim = TRUE, color = "black", linewidth = 0.2) +
   scale_fill_manual(values = blue_reps) +
   labs(
@@ -32,4 +34,20 @@ pC <- ggplot(mapq, aes(x = mapq, y = sample, fill = sample)) +
 
 pC
 
-ggsave(out_file, pC)
+ggsave(out_pdf, pC)
+
+
+# Make tiff
+tiff(
+  out_tiff,
+  width = 7,
+  height = 5,
+  units = "in",
+  res = 600,
+  compression = "lzw"
+)
+
+print(pC)
+
+
+dev.off()
