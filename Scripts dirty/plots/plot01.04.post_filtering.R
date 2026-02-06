@@ -23,12 +23,12 @@ p <- ggplot(
   aes(x = reorder(name, meandepth, FUN = median, decreasing = TRUE),
       y = meandepth)
 ) +
-  geom_boxplot(fill = "#8fbde6", width = 0.5) +
+  geom_boxplot(fill = "grey80", width = 0.5) +
   theme_minimal() +
   labs(
     x = "Chromosome",
     y = "Mean Depth",
-    title = "Mean Sequencing Depth per Chromosome Across Replicates"
+    title = "Mean Sequencing Depth per Chromosome"
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
@@ -40,8 +40,8 @@ ggsave(out_pdf, p)
 {
   tiff(
     out_tiff,
-    width = 7,
-    height = 5,
+    width = 6,
+    height = 4,
     units = "in",
     res = 600,
     compression = "lzw"

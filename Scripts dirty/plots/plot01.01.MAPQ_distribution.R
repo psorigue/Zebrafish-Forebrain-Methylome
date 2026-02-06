@@ -21,7 +21,7 @@ blue_reps <- c(
 )
 
 pC <- ggplot(mapq, aes(x = mapq, y = sample, fill = sample)) +
-  geom_vline(xintercept = 10, color = "gold", linetype = "dashed", linewidth = 0.6) +
+  geom_vline(xintercept = 10, color = "gold", linetype = "dashed", linewidth = 1) +
   geom_violin(scale = "width", trim = TRUE, color = "black", linewidth = 0.2) +
   scale_fill_manual(values = blue_reps) +
   labs(
@@ -30,7 +30,10 @@ pC <- ggplot(mapq, aes(x = mapq, y = sample, fill = sample)) +
     title = "Mapping quality distribution"
   ) +
   theme_classic() +
-  theme(legend.position = "none")
+  theme(
+    legend.position = "none",
+    axis.text.y = element_blank()
+  )
 
 pC
 
@@ -38,16 +41,18 @@ ggsave(out_pdf, pC)
 
 
 # Make tiff
-tiff(
-  out_tiff,
-  width = 7,
-  height = 5,
-  units = "in",
-  res = 600,
-  compression = "lzw"
-)
-
-print(pC)
-
-
-dev.off()
+{
+  tiff(
+    out_tiff,
+    width = 4,
+    height = 4,
+    units = "in",
+    res = 600,
+    compression = "lzw"
+  )
+  
+  print(pC)
+  
+  dev.off()
+  
+}

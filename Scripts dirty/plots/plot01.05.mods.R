@@ -47,7 +47,7 @@ plot_A <- ggplot(df_A, aes(x = code, y = pass_frac, fill = replicate)) +
   labs(
     title = "Base A",
     x = "Category",
-    y = "Pass Fraction"
+    y = "Fraction"
   ) +  # remove fill label
   theme_classic() +
   theme(legend.position = "none") +  # hide legend
@@ -55,7 +55,8 @@ plot_A <- ggplot(df_A, aes(x = code, y = pass_frac, fill = replicate)) +
     data = df_A %>% group_by(code) %>% summarize(pass_frac = median(pass_frac)),
     aes(x = code, y = pass_frac, label = round(pass_frac, 3)),
     inherit.aes = FALSE,
-    vjust = -0.5
+    vjust = -0.5,
+    size = 2
   )
 # Filter for base C
 df_C <- ds %>%
@@ -82,28 +83,29 @@ plot_C <- ggplot(df_C, aes(x = code, y = pass_frac, fill = replicate)) +
   labs(
     title = "Base C",
     x = "Category",
-    y = "Pass Fraction",
+    y = NULL,
     fill = "Replicate"
   ) +
   geom_text(
     data = df_C %>% group_by(code) %>% summarize(pass_frac = median(pass_frac)),
     aes(x = code, y = pass_frac, label = round(pass_frac, 3)),
     inherit.aes = FALSE,
-    vjust = -0.5 ) +
+    vjust = -0.5,
+    size = 2) +
   theme_classic()
 plot_C 
   
 # Combine plots side by side
 p <- plot_A + plot_C
-
+p
 ggsave(out_file, p)
 
 # Make tiff
 {
   tiff(
     out_tiff,
-    width = 7,
-    height = 5,
+    width = 5,
+    height = 4,
     units = "in",
     res = 600,
     compression = "lzw"

@@ -37,16 +37,21 @@ for (num in c("2", "3", "4", "5", "6")) {
 ds$replicate <- factor(ds$replicate, levels = paste0("rep", 6:1))
 
 blue_reps <- c(
-  "#dce9f5",
-  "#bcd7ee",
-  "#8fbde6",
-  "#5fa2da",
-  "#2f78c4",
-  "#1f4e99"
+  "#dce9f5",  # rep1 → bottom
+  "#bcd7ee",  # rep2
+  "#8fbde6",  # rep3
+  "#5fa2da",  # rep4
+  "#2f78c4",  # rep5
+  "#1f4e99"   # rep6 → top
 )
+blue_reps <- rev(blue_reps)
 
 p <- ggplot(ds, aes(x = read_length, fill = replicate)) +
-  geom_histogram(bins = 100, position = "stack", color = "black", linewidth = 0.2) +
+  geom_histogram(
+    bins = 100,
+    position = "stack",
+    linewidth = 0.2
+  ) +
   scale_fill_manual(values = blue_reps) +
   scale_x_log10(
     labels = label_number(scale_cut = cut_si(unit = ""))
@@ -57,7 +62,8 @@ p <- ggplot(ds, aes(x = read_length, fill = replicate)) +
     title = "Read length distribution",
     fill = "Replicate"
   ) +
-  theme_classic()
+  theme_classic() +
+  theme(legend.position = "none") 
 p
 
 ggsave(out_pdf, p)
@@ -66,8 +72,8 @@ ggsave(out_pdf, p)
 {
   tiff(
     out_tiff,
-    width = 7,
-    height = 5,
+    width = 4,
+    height = 4,
     units = "in",
     res = 600,
     compression = "lzw"

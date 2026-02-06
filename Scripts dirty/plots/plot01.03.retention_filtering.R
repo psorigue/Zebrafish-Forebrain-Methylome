@@ -8,7 +8,26 @@ out_tiff <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1C.filter
 filtering <- read.csv(file, header = TRUE, sep = "\t")
 filtering$stage <- factor(filtering$stage, levels = c("initial", "filtered"))
 
-pE <- ggplot(filtering, aes(x = replicate, y = read_count, fill = stage)) +
+filtering$fill_group <- ifelse(
+  filtering$stage == "filtered",
+  as.character(filtering$replicate),
+  "initial"
+)
+
+blue_reps <- c(
+  "rep1" = "#dce9f5",
+  "rep2" = "#bcd7ee",
+  "rep3" = "#8fbde6",
+  "rep4" = "#5fa2da",
+  "rep5" = "#2f78c4",
+  "rep6" = "#1f4e99"
+)
+
+
+pE <- ggplot(
+  filtering,
+  aes(x = replicate, y = read_count, fill = fill_group)
+) +
   geom_col(
     position = position_dodge(width = 0.6),
     width = 0.5,
@@ -17,8 +36,8 @@ pE <- ggplot(filtering, aes(x = replicate, y = read_count, fill = stage)) +
   ) +
   scale_fill_manual(
     values = c(
-      "initial"  = "grey80",
-      "filtered" = "#8fbde6"
+      "initial" = "grey80",
+      blue_reps   # named vector: replicate → blue shade
     )
   ) +
   scale_y_continuous(
@@ -30,10 +49,11 @@ pE <- ggplot(filtering, aes(x = replicate, y = read_count, fill = stage)) +
     fill = NULL,
     title = "Read retention after filtering"
   ) +
-  theme_classic()
-
-
+  theme_classic() +
+  theme(axis.text.x = element_blank()) +
+  theme(legend.position = "none")
 pE
+
 
 ggsave(out_pdf, pE)
 
@@ -41,8 +61,8 @@ ggsave(out_pdf, pE)
 {
   tiff(
     out_tiff,
-    width = 7,
-    height = 5,
+    width = 4,
+    height = 4,
     units = "in",
     res = 600,
     compression = "lzw"
@@ -51,3 +71,5 @@ ggsave(out_pdf, pE)
   dev.off()
   
 }
+
+
