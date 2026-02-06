@@ -8,6 +8,14 @@ out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/1E.mods/m
 
 ds <- read.csv(file, header = T, sep = "\t")
 
+blue_reps <- c(
+  "#dce9f5",
+  "#bcd7ee",
+  "#8fbde6",
+  "#5fa2da",
+  "#2f78c4",
+  "#1f4e99"
+)
 
 # Filter for base A
 df_A <- ds %>%
@@ -21,11 +29,21 @@ c(mean_x, se_x)
 
 df_A$code <- factor(df_A$code, levels = c("can", "a"))
 plot_A <- ggplot(df_A, aes(x = code, y = pass_frac, fill = replicate)) +
-  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
-  theme_minimal() +
-  labs(title = "Base A", x = "Category", y = "Pass Fraction") +
-  scale_fill_brewer(palette = "Set2")
-
+  geom_col(
+    position = position_dodge(width = 0.6),
+    width = 0.5,
+    color = "black",
+    linewidth = 0.2
+  ) +
+  scale_fill_manual(values = blue_reps) +
+  labs(
+    title = "Base A",
+    x = "Category",
+    y = "Pass Fraction",
+    fill = "Replicate"
+  ) +
+  theme_classic()
+plot_A
 # Filter for base C
 df_C <- ds %>%
   filter(base == "C" & code %in% c("can", "m", "h")) %>%
@@ -38,11 +56,21 @@ c(mean_x, se_x)
 
 df_C$code <- factor(df_C$code, levels = c("can", "m", "h"))
 plot_C <- ggplot(df_C, aes(x = code, y = pass_frac, fill = replicate)) +
-  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
-  theme_minimal() +
-  labs(title = "Base C", x = "Category", y = "Pass Fraction") +
-  scale_fill_brewer(palette = "Set2")
-
+  geom_col(
+    position = position_dodge(width = 0.6),
+    width = 0.5,
+    color = "black",
+    linewidth = 0.2
+  ) +
+  scale_fill_manual(values = blue_reps) +
+  labs(
+    title = "Base C",
+    x = "Category",
+    y = "Pass Fraction",
+    fill = "Replicate"
+  ) +
+  theme_classic()
+plot_C
 # Combine plots side by side
 p <- plot_A + plot_C
 

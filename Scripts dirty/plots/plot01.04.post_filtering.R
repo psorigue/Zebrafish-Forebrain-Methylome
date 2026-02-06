@@ -12,12 +12,12 @@ X_filtered <- ds %>%
 
 # Boxplot of mean depth per chromosome
 p <- ggplot(X_filtered, aes(x = X.rname, y = meandepth)) +
-  geom_boxplot(fill = "steelblue", outlier.color = "red") +
+  geom_boxplot(fill = "#8fbde6", width = 0.5) +
   theme_minimal() +
   labs(x = "Chromosome", y = "Mean Depth",
        title = "Mean Sequencing Depth per Chromosome Across Replicates") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
+p
 ggsave(out_file, p)
 
 
