@@ -40,8 +40,8 @@ p <- ggplot(ds_region, aes(x = type, y = mean_meth, fill = modification)) +
   scale_fill_manual(values = mod_colors) +
   labs(
     x = "Genomic feature",
-    y = "Mean methylation",
-    title = "Region-level methylation",
+    y = "Region mean methylation",
+    title = "CpG region-level methylation",
     fill = "Modification"
   ) +
   theme_classic()
