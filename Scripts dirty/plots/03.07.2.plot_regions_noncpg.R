@@ -51,21 +51,6 @@ p1
 ggsave("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/2B.region_mods/CH_genome_50kb_bins_stranded.pdf",
        plot = p1, device = "pdf")
 
-# Stats
-violin_stats_bin <- ds_bin %>%
-  group_by(motif, strand) %>%
-  summarise(
-    median_meth = median(mean_meth, na.rm = TRUE),
-    IQR_low     = quantile(mean_meth, 0.25, na.rm = TRUE),
-    IQR_high    = quantile(mean_meth, 0.75, na.rm = TRUE),
-    IQR         = IQR(mean_meth, na.rm = TRUE),
-    n_regions   = n(),
-    .groups = "drop"
-  )
-violin_stats_bin
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/stats/noncpg_genomic_bins_stranded_stats.txt"
-write.table(violin_stats_bin, file = out_file, col.names = T, row.names = F, sep = "\t", quote = F)
-
 
 # 3. All types, unstranded
 ds_unstranded <- ds_region  # ignore strand
@@ -91,21 +76,3 @@ p2 <- ggplot(ds_unstranded, aes(x = type, y = mean_meth, fill = motif)) +
   ) +
   theme_classic()
 p2
-
-# Stats
-violin_stats_type_motif <- ds_unstranded %>%
-  group_by(type, motif) %>%
-  summarise(
-    median_meth = median(mean_meth, na.rm = TRUE),
-    IQR_low     = quantile(mean_meth, 0.25, na.rm = TRUE),
-    IQR_high    = quantile(mean_meth, 0.75, na.rm = TRUE),
-    IQR         = IQR(mean_meth, na.rm = TRUE),
-    n_regions   = n(),
-    .groups = "drop"
-  )
-violin_stats_type_motif
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/stats/noncpg_unstranded_stats.txt"
-write.table(violin_stats_type_motif, file = out_file, col.names = T, row.names = F, sep = "\t", quote = F)
-
-
-

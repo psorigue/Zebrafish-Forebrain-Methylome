@@ -16,34 +16,6 @@ ds_region <- ds %>%
   )
 
 
-# Plot
-# Ensure 'modification' is a factor with the correct order
-ds$modification <- factor(ds$modification, levels = c("5mC", "5hmC"))
-
-dodge_width <- 0.6
-
-ggplot(ds_region, aes(x = type, y = mean_meth, fill = modification)) +
-  geom_violin(
-    trim = TRUE,
-    scale = "area",
-    alpha = 0.7,
-    position = position_dodge(width = dodge_width)
-  ) +
-  geom_boxplot(
-    width = 0.04,
-    outlier.shape = NA,
-    alpha = 0.5,
-    position = position_dodge(width = dodge_width)
-  ) +
-  labs(
-    x = "Genomic feature type",
-    y = "Mean methylation per region",
-    title = "Region-level methylation averaged across replicates",
-    fill = "Modification"
-  ) +
-  theme_classic()
-
-
 # Statistics
 region_stats <- ds_region %>%
   group_by(type, modification) %>%

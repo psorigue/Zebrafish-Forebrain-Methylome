@@ -2,22 +2,22 @@ library(dplyr)
 library(tidyr)
 
 
-regions_name<- "promoters"
-path_fb <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/forebrain_datasets/methylation_regions/", regions_name, "/")
-path_wb <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_regions/", regions_name, "/")
+regions_name<- "cgi"
+path_fb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_cgi/forebrain/"
+path_wb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_cgi/whole-brain/"
 
-# Threshold number sites per region and coverage
-N <- 50
+# Threshold number sites per region (N) and mean coverage (C)
+N <- 20
 C <- 10
 
-# Example: combine all forebrain replicates
+# 1. Load and process forebrain and whole-brain datasets. The output has columns: chr, start, end, name, mean_meth, mean_cov, nCpG
 forebrain <- list.files(path_fb, full.names=TRUE) %>%
   lapply(function(f){
-    df <- read.table(f, header=FALSE, col.names=c("chr","start","end", "name", "dum", "sign", "meth","cov","nCpG"))
+    df <- read.table(f, header=FALSE, col.names=c("chr","start","end", "name", "meth","cov","nCpG"))
     # Convert numeric columns explicitly
     df$start <- as.numeric(df$start)
     df$end <- as.numeric(df$end)
-    df$meth <- as.numeric(df$meth) * 100 # To match wholebrain
+    df$meth <- as.numeric(df$meth) 
     df$cov <- as.numeric(df$cov)
     df$nCpG <- as.numeric(df$nCpG)
     df
@@ -36,11 +36,11 @@ forebrain <- list.files(path_fb, full.names=TRUE) %>%
 
 wholebrain <- list.files(path_wb, full.names=TRUE) %>%
   lapply(function(f){
-    df <- read.table(f, header=FALSE, col.names=c("chr","start","end", "name", "dum", "sign", "meth","cov","nCpG"))
+    df <- read.table(f, header=FALSE, col.names=c("chr","start","end", "name","meth","cov","nCpG"))
     # Convert numeric columns explicitly
     df$start <- as.numeric(df$start)
     df$end <- as.numeric(df$end)
-    df$meth <- as.numeric(df$meth)
+    df$meth <- as.numeric(df$meth) / 100 # To match forebrain dataset (percentage to proportion)
     df$cov <- as.numeric(df$cov)
     df$nCpG <- as.numeric(df$nCpG)
     df
@@ -56,17 +56,17 @@ wholebrain <- list.files(path_wb, full.names=TRUE) %>%
     .groups="drop")
 
 
-# Merge datasets on the same regions
+# 2. Merge datasets on the same regions
 merged <- inner_join(forebrain, wholebrain,
                      by=c("chr","start","end"),
                      suffix=c("_FB","_WB"))
 
-# Keep only regions with at least N CpGs in both datasets and coverage threshold
+# 3. Keep only regions with at least N CpGs in both datasets and coverage threshold
 merged_filtered <- merged %>%
   filter(nCpG_FB >= N & nCpG_WB >= N) %>%
-  filter(mean_cov_FB > C & mean_cov_WB > C)
+  filter(mean_cov_FB >= C & mean_cov_WB >= C)
 
-# See how threshold affects
+# OPTIONAL: See how threshold of number of sites affects
 thresholds <- 1:30
 cors <- sapply(thresholds, function(t){
   df <- merged %>% filter(nCpG_FB >= t & nCpG_WB >= t)
@@ -74,34 +74,39 @@ cors <- sapply(thresholds, function(t){
 })
 plot(thresholds, cors, type="b", xlab="Min CpG per region", ylab="Pearson correlation")
 
-# Simple Pearson and Spearman
+# 4. Simple Pearson and Spearman
 cor_pearson <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, method="pearson")
 cor_spearman <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, method="spearman")
 
-
-# Scatter plot
+# 5. Scatter plot to visualize correlation
 library(ggplot2)
-ggplot(merged, aes(x=mean_meth_WB, y=mean_meth_FB)) +
+p <- ggplot(merged_filtered, aes(x=mean_meth_WB, y=mean_meth_FB)) +
   geom_point(alpha=0.3) +
-  geom_smooth(method="lm", color="red") +
-  xlab("Whole-brain RRBS") + ylab("Forebrain ONT") +
-  ggtitle(paste0("Pearson: ", round(cor_pearson,2),
-                 " Spearman: ", round(cor_spearman,2)))
+  geom_smooth(method="lm", color="#1f4e99") +
+  xlab("Whole-brain methylation") + ylab("Forebrain methylation")
+p
+out_tiff <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/3A.FB_vs_WB/linear_cgi_fb_vs_wb.tiff"
+# Make tiff
+{
+  tiff(
+    out_tiff,
+    width = 6,
+    height = 5,
+    units = "in",
+    res = 600,
+    compression = "lzw"
+  )
+  print(p)
+  dev.off()
+  
+}
 
-#install.packages("weights")
-library(weights)
-wtd.cor(merged$mean_meth_FB, merged$mean_meth_WB, weight=merged$nCpG_FB + merged$nCpG_WB)
-
-
-
-
-
-# Directional differences
+# 6. Analyze directional differences in methylation
 merged_filtered <- merged_filtered %>%
   mutate(delta = mean_meth_FB - mean_meth_WB)
 
 # Classify changes
-threshold <- 10 # Percentage of delta
+threshold <- 0.15 # Percentage of delta
 merged_filtered <- merged_filtered %>%
   mutate(direction = case_when(
     delta > threshold ~ "Hyper in FB",
@@ -111,23 +116,75 @@ merged_filtered <- merged_filtered %>%
 table(merged_filtered$direction)
 
 # Histogram of delta methylation
-ggplot(merged_filtered, aes(x=delta, fill=direction)) +
-  geom_histogram(binwidth=2, position="stack", color="black", alpha=0.8) +
+merged_filtered$direction <- gsub(merged_filtered$direction, pattern = "Hypo in FB", replacement = "Hypomethylated in forebrain")
+merged_filtered$direction <- gsub(merged_filtered$direction, pattern = "Hyper in FB", replacement = "Hypermethylated in forebrain")
+
+p2 <- ggplot(merged_filtered, aes(x=delta, fill=direction)) +
+  geom_histogram(binwidth=0.02, position="stack", color="black", alpha=0.8) +
   geom_vline(xintercept=0, linetype="dashed", color="darkgray") +
-  scale_fill_manual(values=c("Hypo in FB"="blue", "Hyper in FB"="red", "No change"="gray")) +
-  theme_minimal(base_size=14) +
+  scale_fill_manual(values=c("Hypomethylated in forebrain"="#1f4e99", "Hypermethylated in forebrain"="gold", "No change"="gray"),
+                    labels = c(
+                      "Hypomethylated\nin forebrain",
+                      "Hypermethylated\nin forebrain",
+                      "No change"
+                    )) +
+  theme_minimal() +
   labs(
-    x = expression(Delta~Methylation~(Forebrain - Whole~brain)),
-    y = "Number of regions",
+    x = expression(Delta~Methylation),
+    y = "Number of CG islands",
     fill = "Direction",
-    title = "Regional methylation differences"
+    title = NULL
   ) +
   theme(
     legend.position = "right",
     plot.title = element_text(hjust = 0.5, face="bold")
   )
 
-merged_filtered[merged_filtered$direction == "Hyper in FB",]
+p2
+out_tiff2 <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/3A.FB_vs_WB/delta_cgi_fb_vs_wb.tiff"
+# Make tiff
+{
+  tiff(
+    out_tiff2,
+    width = 6,
+    height = 5,
+    units = "in",
+    res = 600,
+    compression = "lzw"
+  )
+  print(p2)
+  dev.off()
+  
+}
 
-# Identify what regions are in tails, and go back to them in the regions file
-# I added a "name" column that will allow us to identify it
+library(patchwork)
+a <- p + p2
+a
+out_tiff3 <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/plot/3A.FB_vs_WB/panel.tiff"
+# Make tiff
+{
+  tiff(
+    out_tiff3,
+    width = 12,
+    height = 5,
+    units = "in",
+    res = 600,
+    compression = "lzw"
+  )
+  print(a)
+  dev.off()
+  
+}
+
+
+
+
+merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
+
+
+# Order and write merged_filtered table to file
+out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_FB_vs_WB.txt"
+
+merged_filtered_ord <- merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
+write.table(merged_filtered_ord, out_file, sep = "\t", quote = F, col.names = T, row.names = F)
+
