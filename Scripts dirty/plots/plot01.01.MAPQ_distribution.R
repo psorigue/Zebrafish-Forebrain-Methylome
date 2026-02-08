@@ -32,7 +32,8 @@ pC <- ggplot(mapq, aes(x = mapq, y = sample, fill = sample)) +
   theme_classic() +
   theme(
     legend.position = "none",
-    axis.text.y = element_blank()
+    axis.text.y = element_blank(),
+    plot.title = element_text(hjust = 0.1)
   )
 
 pC

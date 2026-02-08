@@ -44,14 +44,17 @@ pE <- ggplot(
     labels = label_number(scale_cut = cut_si(unit = ""))
   ) +
   labs(
-    x = NULL,
+    x = "replicate",
     y = "Reads",
     fill = NULL,
     title = "Read retention after filtering"
   ) +
   theme_classic() +
-  theme(axis.text.x = element_blank()) +
-  theme(legend.position = "none")
+  theme(
+    axis.text.x = element_blank(),
+    legend.position = "none",
+    plot.title = element_text(size = 14)
+  )
 pE
 
 
