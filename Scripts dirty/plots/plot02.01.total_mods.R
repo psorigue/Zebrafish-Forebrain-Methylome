@@ -17,11 +17,11 @@ ds_mod <- ds %>%
 df_CG <- ds_mod %>%
   filter(motif == "CG", mod_code %in% c("5mC", "5hmC"))
 
-# Calculate fraction mean and SE
-df_CG_frac <- df_CG[df_CG$mod_code == "h",]
-mean_x <- mean(df_CG_frac$frac_mod)
-se_x   <- sd(df_CG_frac$frac_mod) / sqrt(length(df_CG_frac$frac_mod))
-c(mean_x, se_x)
+# Calculate fraction median and SE
+df_CG_frac <- df_CG[df_CG$mod_code == "5hmC",]
+median_x <- median(df_CG_frac$mod_over_total)
+se_x   <- sd(df_CG_frac$mod_over_total) / sqrt(length(df_CG_frac$mod_over_total))
+c(median_x, se_x)
 
 # Calculate median to include in the plot
 df_CG_median <- df_CG %>%
@@ -79,10 +79,10 @@ df_m <- ds_mod %>%
   filter(motif %in% c("CA", "CC", "CT"), mod_code == "5mC")
 
 # Calculate fraction mean and SE
-df_CH_frac <- df_m[df_m$motif == "CT",]
-mean_x <- mean(df_CH_frac$mod_over_total)
+df_CH_frac <- df_m[df_m$motif == "CC",]
+median_x <- median(df_CH_frac$mod_over_total)
 se_x   <- sd(df_CH_frac$mod_over_total) / sqrt(length(df_CH_frac$mod_over_total))
-c(mean_x, se_x)
+c(median_x, se_x)
 
 # Make motif a factor for plotting order
 df_m$motif <- factor(df_m$motif, levels = c("CA", "CT", "CC"))
