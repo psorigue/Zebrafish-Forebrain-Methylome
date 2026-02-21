@@ -6,10 +6,11 @@
 # Set variables
 PATH_PILEUP="$HOME/fil/Epi/Data_processed/pileups"
 PATH_OUT="$HOME/fil/Methylome/methylation_proportions"
-PILEUP_CH="${PATH_PILEUP}/pileup_ch"
-PILEUP_ALL="${PATH_PILEUP}/pileup_all"
 REF_GENOME="$HOME/fil/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna"
 PATH_MOTIFS_TABLE="$HOME/fil/Methylome/methylation_proportions/motifs_CH.txt"
+#PILEUP_CH="${PATH_PILEUP}/pileup_ch" Analyze one pilup at a time
+PILEUP_ALL="${PATH_PILEUP}/pileup_all"
+
 
 THREADS=6
 SAMPLES=( 1 2 3 4 5 6 )
@@ -32,4 +33,5 @@ for SAMPLE in "${SAMPLES[@]}" ; do
 
 done
 
+date
 exit

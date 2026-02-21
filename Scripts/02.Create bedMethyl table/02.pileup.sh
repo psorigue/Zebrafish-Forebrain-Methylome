@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # The script performs three separate pileup analyses per sample BAM file:
-# 1) A general pileup for all modified bases to extract 6mA data.
+# 1) A general pileup for all modified bases. From this pileup we extract 6mA data.
 # 2) A pileup specifically for CpG sites, combining strands, to extract 5mC and 5hmC data.
 # 3) A pileup for CH sites to extract 5mC data in non-CpG contexts.
 # 4) After each pileup, it extracts relevant modification data and renames chromosomes based on a mapping file.
@@ -49,9 +49,9 @@ for SAMPLE in {01..06}; do
 
     echo "Processing sample ${SAMPLE}"
 
-    # =======================
-    # 1) FIRST pileup: a mod
-    # =======================
+    # ==================================
+    # 1) FIRST pileup: all modficiations
+    # ==================================
     cd "${PATH_PILEUP_A}"
 
     # Perform pileup for all mods

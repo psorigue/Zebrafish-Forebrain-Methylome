@@ -5,8 +5,9 @@ library(GenomicFeatures) # version 1.62
 library(dplyr) # version 1.1.4
 
 # Define output file and path
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/regions/promoters.bed"
-path_genome <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Epi/Ref_genome/GRCz12tu/"
+home <- path.expand("~")
+out_file <- paste0(home, "/Pol/Methylome/methylation_regions/regions/promoters.bed")
+path_genome <- paste0(home, "/Pol/Epi/Ref_genome/GRCz12tu/")
 
 # Load GTF annotation file and create TxDb object
 file_annot <- paste0(path_genome, "genome/genomic.gtf")

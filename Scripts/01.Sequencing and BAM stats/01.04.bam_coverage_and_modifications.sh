@@ -24,7 +24,7 @@ for SAMPLE in {01..06} ; do
     
 done
 
-# 2. Coverage for all samples together
+# 2. Coverage for all samples together. Genome recovery rate.
 # Per-chromosome coverage values
 samtools coverage "${PATH_BAM}"/barcode{01..06}_aligned_filt.bam > "${PATH_STATS}/all_samples.stats"
 
