@@ -1,10 +1,14 @@
+# This script compares methylation proportions of forebrain (ONT) and whole-brain (RRBS) datasets in CpG islands. It computes Pearson and Spearman correlations, visualizes the relationship with scatter plots, and analyzes directional differences in methylation levels between the two datasets.
+
 library(dplyr)
 library(tidyr)
 
 
 regions_name<- "cgi"
-path_fb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_cgi/forebrain/"
-path_wb <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/methylation_cgi/whole-brain/"
+
+home <- path.expand("~")
+path_fb <- paste0(home, "/Pol/Methylome/Chaterjee/methylation_cgi/forebrain/")
+path_wb <- paste0(home, "/Pol/Methylome/Chaterjee/methylation_cgi/whole-brain/")
 
 # Threshold number sites per region (N) and mean coverage (C)
 N <- 20
@@ -40,7 +44,7 @@ wholebrain <- list.files(path_wb, full.names=TRUE) %>%
     # Convert numeric columns explicitly
     df$start <- as.numeric(df$start)
     df$end <- as.numeric(df$end)
-    df$meth <- as.numeric(df$meth) / 100 # To match forebrain dataset (percentage to proportion)
+    df$meth <- as.numeric(df$meth) / 100 # To match forebrain dataset (percentage to fraction)
     df$cov <- as.numeric(df$cov)
     df$nCpG <- as.numeric(df$nCpG)
     df
@@ -80,15 +84,15 @@ cor_spearman <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, 
 
 # 5. Scatter plot to visualize correlation
 library(ggplot2)
-p <- ggplot(merged_filtered, aes(x=mean_meth_WB, y=mean_meth_FB)) +
+pc <- ggplot(merged_filtered, aes(x=mean_meth_WB, y=mean_meth_FB)) +
   geom_point(alpha=0.3) +
-  geom_smooth(method="lm", color="red") +
+  geom_smooth(method="lm", color="#1f4e99") +
   xlab("Whole-brain RRBS") + ylab("Forebrain ONT") +
   ggtitle(paste0("Pearson: ", round(cor_pearson,2),
                  " Spearman: ", round(cor_spearman,2)))
-p
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_fb_vs_wb.pdf"
-ggsave(out_file, p)
+pc
+out_file_corr <- paste0(home, "/Pol/Methylome/Chaterjee/cgi_fb_vs_wb.pdf")
+ggsave(out_file_corr, p)
 
 # 6. Analyze directional differences in methylation
 merged_filtered <- merged_filtered %>%
@@ -105,10 +109,10 @@ merged_filtered <- merged_filtered %>%
 table(merged_filtered$direction)
 
 # Histogram of delta methylation
-p <- ggplot(merged_filtered, aes(x=delta, fill=direction)) +
+ph <- ggplot(merged_filtered, aes(x=delta, fill=direction)) +
   geom_histogram(binwidth=0.02, position="stack", color="black", alpha=0.8) +
   geom_vline(xintercept=0, linetype="dashed", color="darkgray") +
-  scale_fill_manual(values=c("Hypo in FB"="blue", "Hyper in FB"="red", "No change"="gray")) +
+  scale_fill_manual(values=c("Hypo in FB"="#d4a017", "Hyper in FB"="#1f4e99", "No change"="gray80")) +
   theme_minimal(base_size=14) +
   labs(
     x = expression(Delta~Methylation~(Forebrain - Whole~brain)),
@@ -121,13 +125,13 @@ p <- ggplot(merged_filtered, aes(x=delta, fill=direction)) +
     plot.title = element_text(hjust = 0.5, face="bold")
   )
 
-p
+ph
 merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_fb_vs_wb2.pdf"
-ggsave(out_file, p)
+out_file_hist <- paste0(home, "/Pol/Methylome/Chaterjee/cgi_fb_vs_wb2.pdf")
+ggsave(out_file_hist, ph)
 
 # Order and write merged_filtered table to file
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/cgi_FB_vs_WB.txt"
+out_file <- paste0(home, "/Pol/Methylome/Chaterjee/cgi_FB_vs_WB.txt")
 
 merged_filtered_ord <- merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
 write.table(merged_filtered_ord, out_file, sep = "\t", quote = F, col.names = T, row.names = F)

@@ -5,8 +5,9 @@ library(data.table)
 library(dplyr)
 
 # Define paths
-path <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/"
-out_dir <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/forebrain_datasets/meth_proportions_cpg")
+home <- path.expand("~")
+path <- paste0(home, "/Pol/Methylome/Data_methylation/datasets_by_mod/")
+out_dir <- paste0(home, "/Pol/Methylome/Chaterjee/forebrain_datasets/meth_proportions_cpg")
 dir.create(out_dir, showWarnings = F, recursive = T)
 
 # Define samples

@@ -8,8 +8,9 @@ library(data.table)
 mod <- "5hmC" # 5mC and 5hmC
 
 # Set working directory and output directory
-setwd(paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_by_mod/", mod, "/"))
-out_dir <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Data_methylation/datasets_proportions/", mod)
+home <- path.expand("~")
+setwd(paste0(home, "/Pol/Methylome/Data_methylation/datasets_by_mod/", mod, "/"))
+out_dir <- paste0(home, "/Pol/Methylome/Data_methylation/datasets_proportions/", mod)
 dir.create(out_dir, showWarnings = F, recursive = T)
 
 # Process all .txt files in current directory

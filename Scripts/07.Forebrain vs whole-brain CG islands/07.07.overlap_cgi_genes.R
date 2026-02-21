@@ -1,18 +1,21 @@
+# This script identifies genes that overlap with CpG islands (CGIs) in the zebrafish genome. It reads gene regions and CGI coordinates, converts them to GenomicRanges objects, finds overlaps, and outputs a list of genes that overlap with CGIs.
+
 library(GenomicRanges)
 
-# --- 1. Load input files ---
-file_gene_regions <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/regions/genes_plus_promoters.bed"
-cgi_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/regions/cgi.bed"
+# 1. Load input files
+home <- path.expand("~")
+file_gene_regions <- paste0(home, "/Pol/Methylome/methylation_regions/regions/genes_plus_promoters.bed")
+cgi_file <- paste0(home, "/Pol/Methylome/methylation_regions/regions/cgi.bed")
 
-# --- 2. Read data ---
+# 2. Read data 
 regions_ds <- read.table(file_gene_regions, header = F, col.names = c("chr", "start", "end", "gene_id", "dum", "strand"), sep = "\t", stringsAsFactors = FALSE)
-
 cgi_ds <- read.table(cgi_file, header = F, col.names = c("chr", "start", "end", "name"), sep = "\t", stringsAsFactors = FALSE)
+
 # Reduce dataset
 cgi_ds <- cgi_ds[,c("chr", "start", "end", "name")]
 
 
-# --- 3. Convert to GenomicRanges objects ---
+# 3. Convert to GenomicRanges objects 
 genes_gr <- GRanges(
   seqnames = regions_ds$chr,
   ranges = IRanges(start = regions_ds$start + 1, end = regions_ds$end), # +1 because GRanges interprets 1-based
@@ -26,7 +29,7 @@ cgi_gr <- GRanges(
   id = cgi_ds$name
 )
 
-# --- 4. Find overlaps ---
+# 4. Find overlaps 
 hits <- findOverlaps(cgi_gr, genes_gr)
 
 # Extract overlapping ranges
@@ -49,7 +52,7 @@ overlap_df <- data.frame(
   stringsAsFactors = FALSE
 )
 
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/overlap_genes_cgi.txt"
+out_file <- paste0(home, "/Pol/Methylome/Chaterjee/overlap_genes_cgi.txt")
 write.table(overlap_df, out_file, sep = "\t", quote = F, col.names = T, row.names = F)
 
 # Reduced dataset
@@ -58,5 +61,5 @@ cgi_gene_collapsed <- aggregate(
   data = overlap_df,
   FUN = function(x) paste(unique(x), collapse = ";")
 )
-out_file <- "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/Chaterjee/overlap_genes_cgi_reduced.txt"
+out_file <- paste0(home, "/Pol/Methylome/Chaterjee/overlap_genes_cgi_reduced.txt")
 write.table(cgi_gene_collapsed, out_file, sep = "\t", quote = F, col.names = T, row.names = F)

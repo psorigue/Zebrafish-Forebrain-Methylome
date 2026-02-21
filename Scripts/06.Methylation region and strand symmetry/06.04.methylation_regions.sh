@@ -5,7 +5,7 @@
 # Bedtools v2.31.1
 
 # Define regions
-REGIONS_NAME="genome_50kb_bins" # genome_50kb_bins, genes, promoters, cgi
+REGIONS_NAME="genome_50kb_bins" # genome_50kb_bins, genes, promoters, cgi. One at a time
 REGION_FILE="$HOME/fil/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
 
 # Define paths
