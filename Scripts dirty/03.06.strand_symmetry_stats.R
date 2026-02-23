@@ -51,16 +51,62 @@ chr_motif_results <- ds_rep %>%
   ungroup()
 
 # Write output
-out_file <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/stats/", 
+out_file <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/stats/strand_symmetry/chr_", 
                    name_analysis, "_strand_stats.txt")
 write.table(chr_motif_results, out_file, sep = "\t", col.names = TRUE, row.names = FALSE, quote = FALSE)
+
+
+
+# =============================
+# 1.2. Genome-wide analysis (no chromosome specificity)
+# =============================
+
+#------------------------------------
+# 1.2.1.: Compute per-replicate genome-wide mean per motif × strand
+#------------------------------------
+ds_global_rep <- ds %>%
+  group_by(motif, strand, replicate) %>%
+  summarise(
+    mean_meth = mean(meth, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+#------------------------------------
+# 1.2.2.: Perform t-test per motif
+#------------------------------------
+global_results <- ds_global_rep %>%
+  group_by(motif) %>%
+  summarise(
+    n_pos = sum(strand == "pos"),
+    n_neg = sum(strand == "neg"),
+    mean_pos = mean(mean_meth[strand == "pos"], na.rm = TRUE),
+    mean_neg = mean(mean_meth[strand == "neg"], na.rm = TRUE),
+    mean_diff = mean_pos - mean_neg,
+    p_value = ifelse(
+      n_pos > 1 & n_neg > 1,
+      t.test(mean_meth[strand == "pos"], mean_meth[strand == "neg"], var.equal = FALSE)$p.value,
+      NA
+    ),
+    .groups = "drop"
+  ) %>%
+  group_by(motif) %>%
+  mutate(padj = p.adjust(p_value, method = "BH")) %>%
+  ungroup()
+
+# Write output
+out_file_genomic <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/stats/strand_symmetry/", 
+                   name_analysis, "_strand_stats.txt")
+write.table(global_results, out_file_genomic, sep = "\t", col.names = TRUE, row.names = FALSE, quote = FALSE)
+
+
+
 
 
 #=============================
 # 2. Promoters and genes
 #=============================
 
-name_analysis <- "promoters"
+name_analysis <- "genome_50kb_bins"
 file <- paste0("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/output/", 
                name_analysis, "/CH_", name_analysis, "_stranded.txt")
 ds <- read.csv(file, header = FALSE, sep = "\t")
