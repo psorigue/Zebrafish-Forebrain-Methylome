@@ -5,8 +5,8 @@
 # Modkit v0.5.0
 
 # Define paths
-PATH_BAM="$HOME/fil/Epi/Data_genomics/bams_filtered"
-PATH_STATS="$HOME/fil/Methylome/QC/bam_stats"
+PATH_BAM="$HOME/Pol/Epi/Data_genomics/bams_filtered"
+PATH_STATS="$HOME/Pol/Methylome/QC/bam_stats"
 
 # Set number of threads
 THREADS=2

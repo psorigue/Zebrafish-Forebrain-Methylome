@@ -5,9 +5,9 @@
 # Modkit v 0.5.0
 
 # Set input/output paths
-PATH_IN="$HOME/fil/Epi/Data_genomics/bams_genomics/Bam_Aligned_Cat"
-PATH_OUT="$HOME/fil/Epi/Data_genomics/bams_filtered"
-STATS_DIR="$HOME/fil/Methylome/QC/qc_stats"
+PATH_IN="$HOME/Pol/Epi/Data_genomics/bams_genomics/Bam_Aligned_Cat"
+PATH_OUT="$HOME/Pol/Epi/Data_genomics/bams_filtered"
+STATS_DIR="$HOME/Pol/Methylome/QC/qc_stats"
 
 # Define output files for statistics
 COUNTS_OUT="${STATS_DIR}/read_counts.tsv"

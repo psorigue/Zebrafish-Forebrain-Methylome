@@ -4,10 +4,10 @@
 # Modkit v0.5.0
 
 # Set variables
-PATH_PILEUP="$HOME/fil/Epi/Data_processed/pileups"
-PATH_OUT="$HOME/fil/Methylome/methylation_proportions"
-REF_GENOME="$HOME/fil/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna"
-PATH_MOTIFS_TABLE="$HOME/fil/Methylome/methylation_proportions/motifs_CH.txt"
+PATH_PILEUP="$HOME/Pol/Epi/Data_processed/pileups"
+PATH_OUT="$HOME/Pol/Methylome/methylation_proportions"
+REF_GENOME="$HOME/Pol/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna"
+PATH_MOTIFS_TABLE="$HOME/Pol/Methylome/methylation_proportions/motifs_CH.txt"
 #PILEUP_CH="${PATH_PILEUP}/pileup_ch" Analyze one pilup at a time
 PILEUP_ALL="${PATH_PILEUP}/pileup_all"
 

@@ -6,11 +6,11 @@
 
 # Define regions
 REGIONS_NAME="cgi"
-REGION_FILE="$HOME/fil/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
+REGION_FILE="$HOME/Pol/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
 
 # Define paths
-PATH_POSITIONS="$HOME/fil/Methylome/Chaterjee/meth_calls/output"
-PATH_OUT="$HOME/fil/Methylome/Chaterjee/methylation_regions/${REGIONS_NAME}"
+PATH_POSITIONS="$HOME/Pol/Methylome/Chaterjee/meth_calls/output"
+PATH_OUT="$HOME/Pol/Methylome/Chaterjee/methylation_regions/${REGIONS_NAME}"
 
 # Define samples
 SAMPLES=(M1 M2 F1 F2)

@@ -5,16 +5,16 @@
 # Bismark v0.25.1
 
 # Set path to fastq files
-PATH_RUNS="$HOME/fil/Methylome/Chaterjee/fastq_runs"
+PATH_RUNS="$HOME/Pol/Methylome/Chaterjee/fastq_runs"
 
 # Define sample names
-SAMPLES=(M1 M2 F1 F2)
+SAMPLES=(M1 M2 F1 F2) # Sample names match those in the fastq file names
 
 # Set number of threads
 THREADS=8
 
-mkdir -p "${HOME}/fil/Methylome/Chaterjee/mapping"
-cd "${HOME}/fil/Methylome/Chaterjee/mapping"
+mkdir -p "${HOME}/Pol/Methylome/Chaterjee/mapping"
+cd "${HOME}/Pol/Methylome/Chaterjee/mapping"
 
 for SAMPLE in "${SAMPLES[@]}" ; do
 

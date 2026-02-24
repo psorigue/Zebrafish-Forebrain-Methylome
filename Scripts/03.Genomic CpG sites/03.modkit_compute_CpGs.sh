@@ -5,13 +5,13 @@
 # Bedtools v2.31.1
 
 # Set variables
-REF_GENOME="$HOME/fil/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna"
-PATH_OUT_SAMPLES="$HOME/fil/Methylome/CpG_sites/coverage_CpG_samples"
-PATH_BAM="$HOME/fil/Epi/Data_genomics/bams_filtered"
-PATH_OUT_GENOME="$HOME/fil/Methylome/CpG_sites"
+REF_GENOME="$HOME/Pol/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna"
+PATH_OUT_SAMPLES="$HOME/Pol/Methylome/CpG_sites/coverage_CpG_samples"
+PATH_BAM="$HOME/Pol/Epi/Data_genomics/bams_filtered"
+PATH_OUT_GENOME="$HOME/Pol/Methylome/CpG_sites"
 
-CHROMOSOME_FILE="$HOME/fil/Epi/Ref_genome/GRCz12tu/genome/chr_array.txt" # Exclude MT chromosome
-CPG_BED="$HOME/fil/Methylome/CpG_sites/CpG_genome/CpG_sites_genome.bed" # Genomic CpG sites
+CHROMOSOME_FILE="$HOME/Pol/Epi/Ref_genome/GRCz12tu/genome/chr_array.txt" # Exclude MT chromosome
+CPG_BED="$HOME/Pol/Methylome/CpG_sites/CpG_genome/CpG_sites_genome.bed" # Genomic CpG sites
 
 # Read chromosomes
 CHROMOSOMES=( $( cat "${CHROMOSOME_FILE}" ) )

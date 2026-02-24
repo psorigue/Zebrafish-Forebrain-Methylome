@@ -5,11 +5,11 @@
 
 # Define regions
 REGIONS_NAME="cgi"
-REGION_FILE="$HOME/fil/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
+REGION_FILE="$HOME/Pol/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
 
 # Define paths
-PATH_POSITIONS="$HOME/fil/Methylome/Chaterjee/forebrain_datasets/meth_proportions_cpg"
-PATH_OUT="$HOME/fil/Methylome/Chaterjee/forebrain_datasets/methylation_regions/${REGIONS_NAME}"
+PATH_POSITIONS="$HOME/Pol/Methylome/Chaterjee/forebrain_datasets/meth_proportions_cpg"
+PATH_OUT="$HOME/Pol/Methylome/Chaterjee/forebrain_datasets/methylation_regions/${REGIONS_NAME}"
 
 # Create output directory
 mkdir -p "${PATH_OUT}"

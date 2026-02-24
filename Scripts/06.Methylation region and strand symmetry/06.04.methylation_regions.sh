@@ -6,11 +6,11 @@
 
 # Define regions
 REGIONS_NAME="genome_50kb_bins" # genome_50kb_bins, genes, promoters, cgi. One at a time
-REGION_FILE="$HOME/fil/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
+REGION_FILE="$HOME/Pol/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
 
 # Define paths
-PATH_POSITIONS="$HOME/fil/Methylome/Data_methylation/datasets_proportions"
-PATH_OUT="$HOME/fil/Methylome/methylation_regions/output/${REGIONS_NAME}"
+PATH_POSITIONS="$HOME/Pol/Methylome/Data_methylation/datasets_proportions"
+PATH_OUT="$HOME/Pol/Methylome/methylation_regions/output/${REGIONS_NAME}"
 
 # Create output directory
 mkdir -p "${PATH_OUT}"
@@ -42,20 +42,20 @@ for motif in CA CC CT ; do
 
     for sam in {1..6} ; do
       
-        mkdir -p "$path_out"/ch
+        mkdir -p "$PATH_OUT"/ch
     
         for st in pos neg ; do
     
-            positions="$path_positions"/ch/ch_sample0"$sam"_"$motif"_"$st"_mpct.txt
-            out_name="$path_out"/ch/meth_mean_"$motif"_"$st"_rep"$sam"_"$regions_name".txt
+            POSITIONS="$PATH_POSITIONS"/ch/ch_sample0"$sam"_"$motif"_"$st"_mpct.txt
+            OUT_NAME="$PATH_OUT"/ch/meth_mean_"$motif"_"$st"_rep"$sam"_"$REGIONS_NAME".txt
 
             # Output: chr, start (0-based), end (0-based), name of -a region (if applicable), mean methylation %, mean coverage, number of covered cpg positions in the region
             bedtools map \
-              -a <(sort -k1,1 -k2,2n "$region_file") \
-              -b "$positions" \
+              -a <(sort -k1,1 -k2,2n "$REGION_FILE") \
+              -b "$POSITIONS" \
               -c 4,5,4 \
               -o mean,mean,count \
-              > $out_name
+              > "$OUT_NAME"
               
         done
           
