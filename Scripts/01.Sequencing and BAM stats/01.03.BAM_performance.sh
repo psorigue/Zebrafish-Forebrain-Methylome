@@ -4,8 +4,8 @@
 # Samtools v 1.21
 
 # Define paths
-PATH_IN="$HOME/Pol/Epi/Data_genomics/bams_genomics/Bam_Aligned_Cat"
-QC_OUT="$HOME/Pol/Epi/Data_genomics/qc_stats/read_loss_summary.tsv"
+PATH_IN="$HOME/Data/bams_genomics"
+QC_OUT="$HOME/QC/qc_stats/read_loss_summary.tsv"
 
 # Set number of threads
 THREADS=2

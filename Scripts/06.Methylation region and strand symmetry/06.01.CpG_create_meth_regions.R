@@ -9,8 +9,8 @@ mod <- "5hmC" # 5mC and 5hmC
 
 # Set working directory and output directory
 home <- path.expand("~")
-setwd(paste0(home, "/Pol/Methylome/Data_methylation/datasets_by_mod/", mod, "/"))
-out_dir <- paste0(home, "/Pol/Methylome/Data_methylation/datasets_proportions/", mod)
+setwd(paste0(home, "/Data/datasets_by_mod/", mod, "/"))
+out_dir <- paste0(home, "/Data_methylation/datasets_proportions/", mod)
 dir.create(out_dir, showWarnings = F, recursive = T)
 
 # Process all .txt files in current directory

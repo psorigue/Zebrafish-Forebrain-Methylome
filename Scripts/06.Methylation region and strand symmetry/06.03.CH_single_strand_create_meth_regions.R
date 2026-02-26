@@ -8,8 +8,8 @@ library(data.table) # v.1.18
 # 1. Paths
 # ===============================
 home <- path.expand("~")
-path_in <- paste0(home, "/Pol/Methylome/Data_methylation/datasets_by_mod/ch")
-path_out <- paste0(home, "/Pol/Methylome/Data_methylation/datasets_proportions/ch_ss/")
+path_in <- paste0(home, "/Data/datasets_by_mod/ch")
+path_out <- paste0(home, "/Data_methylation/datasets_proportions/ch_ss/")
 dir.create(path_out, recursive = TRUE, showWarnings = FALSE)
 
 # Define input files by full path

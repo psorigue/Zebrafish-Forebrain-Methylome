@@ -8,7 +8,7 @@ library(ggplot2)
 # 1. Genomic bins
 #=============================
 home <- path.expand("~")
-file <- paste0(home, "/Pol/Methylome/methylation_regions/output/genome_50kb_bins/CH_genome_50kb_bins_stranded.txt")
+file <- paste0(home, "/methylation_regions/output/genome_50kb_bins/CH_genome_50kb_bins_stranded.txt")
 ds <- read.csv(file, header = FALSE, sep = "\t")
 
 # Set column names

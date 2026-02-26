@@ -6,8 +6,8 @@ library(dplyr) # version 1.1.4
 
 # Define output file and path
 home <- path.expand("~")
-out_file <- paste0(home, "/Pol/Methylome/methylation_regions/regions/promoters.bed")
-path_genome <- paste0(home, "/Pol/Epi/Ref_genome/GRCz12tu/")
+out_file <- paste0(home, "/methylation_regions/regions/promoters.bed")
+path_genome <- paste0(home, "/Ref_genome/GRCz12tu/")
 
 # Load GTF annotation file and create TxDb object
 file_annot <- paste0(path_genome, "genome/genomic.gtf")

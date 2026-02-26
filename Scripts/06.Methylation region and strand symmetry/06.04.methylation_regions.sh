@@ -6,11 +6,11 @@
 
 # Define regions
 REGIONS_NAME="genome_50kb_bins" # genome_50kb_bins, genes, promoters, cgi. One at a time
-REGION_FILE="$HOME/Pol/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
+REGION_FILE="$HOME/methylation_regions/regions/${REGIONS_NAME}.bed"
 
 # Define paths
-PATH_POSITIONS="$HOME/Pol/Methylome/Data_methylation/datasets_proportions"
-PATH_OUT="$HOME/Pol/Methylome/methylation_regions/output/${REGIONS_NAME}"
+PATH_POSITIONS="$HOME/Data/datasets_proportions"
+PATH_OUT="$HOME/Data_methylation/methylation_regions/output/${REGIONS_NAME}"
 
 # Create output directory
 mkdir -p "${PATH_OUT}"

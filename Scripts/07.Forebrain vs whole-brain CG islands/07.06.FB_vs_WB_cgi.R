@@ -7,8 +7,8 @@ library(tidyr)
 regions_name<- "cgi"
 
 home <- path.expand("~")
-path_fb <- paste0(home, "/Pol/Methylome/Chaterjee/methylation_cgi/forebrain/")
-path_wb <- paste0(home, "/Pol/Methylome/Chaterjee/methylation_cgi/whole-brain/")
+path_fb <- paste0(home, "/Chaterjee/methylation_cgi/forebrain/")
+path_wb <- paste0(home, "/Chaterjee/methylation_cgi/whole-brain/")
 
 # Threshold number sites per region (N) and mean coverage (C)
 N <- 20
@@ -91,8 +91,8 @@ pc <- ggplot(merged_filtered, aes(x=mean_meth_WB, y=mean_meth_FB)) +
   ggtitle(paste0("Pearson: ", round(cor_pearson,2),
                  " Spearman: ", round(cor_spearman,2)))
 pc
-out_file_corr <- paste0(home, "/Pol/Methylome/Chaterjee/cgi_fb_vs_wb.pdf")
-ggsave(out_file_corr, p)
+out_file_corr <- paste0(home, "/Chaterjee/cgi_fb_vs_wb.pdf")
+ggsave(out_file_corr, pc)
 
 # 6. Analyze directional differences in methylation
 merged_filtered <- merged_filtered %>%
@@ -127,11 +127,11 @@ ph <- ggplot(merged_filtered, aes(x=delta, fill=direction)) +
 
 ph
 merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
-out_file_hist <- paste0(home, "/Pol/Methylome/Chaterjee/cgi_fb_vs_wb2.pdf")
+out_file_hist <- paste0(home, "/Chaterjee/cgi_fb_vs_wb2.pdf")
 ggsave(out_file_hist, ph)
 
 # Order and write merged_filtered table to file
-out_file <- paste0(home, "/Pol/Methylome/Chaterjee/cgi_FB_vs_WB.txt")
+out_file <- paste0(home, "/Chaterjee/cgi_FB_vs_WB.txt")
 
 merged_filtered_ord <- merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
 write.table(merged_filtered_ord, out_file, sep = "\t", quote = F, col.names = T, row.names = F)

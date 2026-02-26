@@ -44,3 +44,70 @@ Scripts used in Scientific Publication -> DOI pending
 **Notes**
 
 > Along the files and scripts, the notation “5mC” and “5hmC” refer to CpG-associated cytosine methylation, while “CH” refers to non‑CpG cytosine methylation.
+
+
+**Directory structure assumed along the scripts**
+
+$HOME/
+├── Data/
+│   ├── bams_genomics/
+│   ├── bams_filtered/
+│   ├── pileups/
+│   │   ├── pileup_all/
+│   │   ├── pileup_cpg/
+│   │   └── pileup_ch/
+│   └── datasets_by_mod/
+│       ├── 5mC/
+│       ├── 5hmC/
+│       ├── 6mA/
+│       └── ch/                # also used for CH single‑strand
+│
+├── Data_methylation/           
+│   ├── datasets_proportions/
+│   │   ├── 5mC/
+│   │   ├── 5hmC/
+│   │   ├── 6mA/
+│   │   ├── ch/
+│   │   └── ch_ss/            # single‑strand output
+│   │
+│   └── methylation_regions/
+│       ├── output/
+│       │  ├── cgi
+│       │  ├── genes
+│       │  ├── genome_50kb_bins
+│       │  └── promoters
+│       └── regions/			# region coordinates templates
+│
+├── Ref_genome/
+│   └── GRCz12tu/
+│       ├── genomic.gtf
+│       ├── GCF_049306965.1_GRCz12tu_genomic.fna
+│       ├── GCF_049306965.1_GRCz12tu_genomic.fna.fai   # index
+│       └── chr_array.txt       
+│
+├── QC/
+│   ├── bam_qc/
+│   │   └── qualimap/
+│   └── qc_stats/
+│
+├── methylation_proportions/
+│   └── motifs_CH.txt
+│
+├── CpG_sites/
+│   ├── coverage_CpG_samples/
+│   └── CpG_genome/
+│       └── CpG_sites_genome.bed
+│
+├── Chaterjee/
+│   ├── bismark_data_process/
+│   │   ├── fastq_runs/
+│   │   ├── mapping/
+│   │   └── meth_calls/
+│   │       └── output/
+│   ├── forebrain_cpg_sites
+│   └── methylation_cgi/
+│       ├── forebrain/
+│       └── whole-brain/
+│
+└── methylation_regions/
+    └── regions/

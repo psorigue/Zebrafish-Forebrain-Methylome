@@ -4,8 +4,8 @@ library(GenomicRanges)
 
 # 1. Load input files
 home <- path.expand("~")
-file_gene_regions <- paste0(home, "/Pol/Methylome/methylation_regions/regions/genes_plus_promoters.bed")
-cgi_file <- paste0(home, "/Pol/Methylome/methylation_regions/regions/cgi.bed")
+file_gene_regions <- paste0(home, "/methylation_regions/regions/genes_plus_promoters.bed")
+cgi_file <- paste0(home, "/methylation_regions/regions/cgi.bed")
 
 # 2. Read data 
 regions_ds <- read.table(file_gene_regions, header = F, col.names = c("chr", "start", "end", "gene_id", "dum", "strand"), sep = "\t", stringsAsFactors = FALSE)
@@ -52,7 +52,7 @@ overlap_df <- data.frame(
   stringsAsFactors = FALSE
 )
 
-out_file <- paste0(home, "/Pol/Methylome/Chaterjee/overlap_genes_cgi.txt")
+out_file <- paste0(home, "/Chaterjee/overlap_genes_cgi.txt")
 write.table(overlap_df, out_file, sep = "\t", quote = F, col.names = T, row.names = F)
 
 # Reduced dataset
@@ -61,5 +61,5 @@ cgi_gene_collapsed <- aggregate(
   data = overlap_df,
   FUN = function(x) paste(unique(x), collapse = ";")
 )
-out_file <- paste0(home, "/Pol/Methylome/Chaterjee/overlap_genes_cgi_reduced.txt")
+out_file <- paste0(home, "/Chaterjee/overlap_genes_cgi_reduced.txt")
 write.table(cgi_gene_collapsed, out_file, sep = "\t", quote = F, col.names = T, row.names = F)

@@ -4,9 +4,9 @@
 # Bismark v0.25.1
 
 # Set paths
-PATH_BAMS="$HOME/Pol/Methylome/Chaterjee/mapping"
-PATH_METH="$HOME/Pol/Methylome/Chaterjee/meth_calls"
-PATH_OUT="$HOME/Pol/Methylome/Chaterjee/meth_calls/output"
+PATH_BAMS="$HOME/Chaterjee/bismark_data_process/mapping"
+PATH_METH="$HOME/Chaterjee/bismark_data_process/meth_calls"
+PATH_OUT="$HOME/Chaterjee/bismark_data_process/meth_calls/output"
 
 # Define sample names
 SAMPLES=(M1 M2 F1 F2)

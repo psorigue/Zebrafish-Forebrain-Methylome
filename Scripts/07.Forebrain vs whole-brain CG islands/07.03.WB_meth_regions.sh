@@ -5,12 +5,11 @@
 # Bedtools v2.31.1
 
 # Define regions
-REGIONS_NAME="cgi"
-REGION_FILE="$HOME/Pol/Methylome/methylation_regions/regions/${REGIONS_NAME}.bed"
+REGION_FILE="$HOME/Data_methylation/methylation_regions/regions/cgi.bed"
 
 # Define paths
-PATH_POSITIONS="$HOME/Pol/Methylome/Chaterjee/meth_calls/output"
-PATH_OUT="$HOME/Pol/Methylome/Chaterjee/methylation_regions/${REGIONS_NAME}"
+PATH_POSITIONS="$HOME/Chaterjee/bismark_data_process/meth_calls/output"
+PATH_OUT="$HOME/Chaterjee/methylation_cgi/whole-brain"
 
 # Define samples
 SAMPLES=(M1 M2 F1 F2)
@@ -21,7 +20,7 @@ mkdir -p "${PATH_OUT}"
 for SAMPLE in "${SAMPLES[@]}" ; do
 
     POSITIONS="${PATH_POSITIONS}/${SAMPLE}_cpg.bed"
-    OUT_NAME="${PATH_OUT}/${SAMPLE}_${REGIONS_NAME}.txt"
+    OUT_NAME="${PATH_OUT}/${SAMPLE}_cgi.txt"
     
     # Output: chr, start (0-based), end (0-based), name of -a region (if applicable), mean methylation %, mean coverage, number of covered cpg positions in the region. Only positions with coverage >=5 are considered.
     bedtools map \

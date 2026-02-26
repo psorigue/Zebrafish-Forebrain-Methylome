@@ -4,8 +4,8 @@
 # Bedtools v2.31.1
 
 # Set paths
-GENOME_INDEX="$HOME/Pol/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna.fai"
-PATH_OUT="$HOME/Pol/Methylome/methylation_regions/regions"
+GENOME_INDEX="$HOME/Ref_genome/GRCz12tu/GCF_049306965.1_GRCz12tu_genomic.fna.fai"
+PATH_OUT="$HOME/methylation_regions/regions"
 
 # Create output directory
 mkdir -p "${PATH_OUT}"

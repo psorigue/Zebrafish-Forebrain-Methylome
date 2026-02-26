@@ -12,19 +12,19 @@
 # =========================
 # Paths
 # =========================
-PATH_BAM="$HOME/Pol/Epi/Data_genomics/bams_filtered"
+PATH_BAM="$HOME/Data/bams_filtered"
 
-PATH_PILEUP_A="$HOME/Pol/Epi/Data_processed/pileups/pileup_all"
-PATH_PILEUP_CPG="$HOME/Pol/Epi/Data_processed/pileups/pileup_cpg"
-PATH_PILEUP_CH="$HOME/Pol/Epi/Data_processed/pileups/pileup_ch"
+PATH_PILEUP_A="$HOME/Data/pileups/pileup_all"
+PATH_PILEUP_CPG="$HOME/Data/pileups/pileup_cpg"
+PATH_PILEUP_CH="$HOME/Data/pileups/pileup_ch"
 
-PATH_OUT_5MC="$HOME/Pol/Methylome/Data_methylation/datasets_by_mod/5mC"
-PATH_OUT_5HMC="$HOME/Pol/Methylome/Data_methylation/datasets_by_mod/5hmC"
-PATH_OUT_6MA="$HOME/Pol/Methylome/Data_methylation/datasets_by_mod/6mA"
-PATH_OUT_CH="$HOME/Pol/Methylome/Data_methylation/datasets_by_mod/ch"
+PATH_OUT_5MC="$HOME/Data/datasets_by_mod/5mC"
+PATH_OUT_5HMC="$HOME/Data/datasets_by_mod/5hmC"
+PATH_OUT_6MA="$HOME/Data/datasets_by_mod/6mA"
+PATH_OUT_CH="$HOME/Data/datasets_by_mod/ch"
 
-CHR_MAPPING_FILE="$HOME/Pol/Epi/Data_processed/chr_mapping.tsv"
-REF_GENOME="$HOME/Pol/Epi/Ref_genome/GRCz12tu/genome/GCF_049306965.1_GRCz12tu_genomic.fna"
+CHR_MAPPING_FILE="$HOME/Data/chr_mapping.tsv"
+REF_GENOME="$HOME/Ref_genome/GRCz12tu/GCF_049306965.1_GRCz12tu_genomic.fna"
 
 THREADS=20
 

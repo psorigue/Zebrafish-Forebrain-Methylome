@@ -4,10 +4,10 @@
 # Qualimap v.2.3
 
 # Set paths
-PATH_BAMS="$HOME/Pol/Epi/Data_genomics/bams_genomics/Bam_Aligned_Cat"
-REF_GTF="$HOME/Pol/Epi/Ref_genome/GRCz12tu/genome/genomic.gtf"
-PATH_OUT="$HOME/Pol/Methylome/QC/bam_qc/qualimap"
-PATH_QC="$HOME/Pol/Methylome/QC/qc_stats"
+PATH_BAMS="$HOME/Data/bams_genomics"
+REF_GTF="$HOME/Ref_genome/GRCz12tu/genomic.gtf"
+PATH_OUT="$HOME/QC/bam_qc/qualimap"
+PATH_QC="$HOME/QC/qc_stats"
 
 # Create output directories
 mkdir -p "${PATH_OUT}" ; mkdir -p "${PATH_QC}"
