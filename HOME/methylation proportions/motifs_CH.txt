@@ -1,0 +1,9 @@
+m	CA	0
+m	CC	0
+m	CT	0
+m	CG	0
+h	CG	0
+a	A	0
+h	CC	0
+h	CT	0
+h	CA	0

@@ -5,7 +5,7 @@ Scripts used in Scientific Publication -> DOI pending
 The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**. Release-to-public date: March 26th, 2026.
 Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation level (output of script *06.04.methylation_regions*)
 
-## Annotations used
+## Annotations Used:
 Zebrafish genome assembly: **GRCz12tu** (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_049306965.1/)
 Zebrafish predicted CG Islands annotation, downloaded Oct 22nd, 2025 (https://genome.ucsc.edu/cgi-bin/hgTables)
 
@@ -52,7 +52,15 @@ Zebrafish predicted CG Islands annotation, downloaded Oct 22nd, 2025 (https://ge
 > Along the files and scripts, the notation “5mC” and “5hmC” refer to CpG-associated cytosine methylation, while “CH” refers to non‑CpG cytosine methylation.
 
 
-**Directory structure assumed along the scripts**
+### Directory structure assumed by the scripts
+
+Large files are not included in this repository. They can be obtained from:
+- Raw sequencing data: ENA (PRJEB108899) (see *Data availability* section)
+- Intermediate files: Accession pending (see *Data availability* section)
+- Online Annotations (see *Annotations Used* section)
+
+All scripts assume the following directory structure under `$HOME`.  
+After downloading the raw data, the pipeline can be run sequentially using the provided scripts.
 
 $HOME/
 ├── Data/

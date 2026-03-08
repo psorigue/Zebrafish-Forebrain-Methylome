@@ -1,0 +1,5 @@
+Fraction_genome_covered: 0.967755
+Genome_coverage_%: 96.7755
+Mean_depth: 71.0264
+Mean_baseQ: 41.3788
+Mean_mapQ: 57.952

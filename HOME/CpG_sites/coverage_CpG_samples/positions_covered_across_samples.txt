@@ -1,0 +1,2 @@
+CpGs >1 in at least one sample: 24644078
+CpGs >1 in all samples: 22689356

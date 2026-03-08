@@ -1,0 +1,72 @@
+# bases             C,A 
+# total_reads_used  64657 
+# count_reads_A     64657 
+# count_reads_C     64598 
+# pass_threshold_A  0.8 
+# pass_threshold_C  0.8 
+ base  code  pass_count  pass_frac      all_count  all_frac 
+ A     -     130663976   0.9991293      131894608  0.9964139 
+ A     a     113871      0.00087072083  474691     0.0035861111 
+ C     -     75941511    0.9355361      77000339   0.92252296 
+ C     h     556153      0.006851341    962914     0.011536447 
+ C     m     4676661     0.05761256     5503869    0.06594057 
+# bases             C,A 
+# total_reads_used  64659 
+# count_reads_A     64659 
+# count_reads_C     64621 
+# pass_threshold_A  0.8 
+# pass_threshold_C  0.8 
+ base  code  pass_count  pass_frac      all_count  all_frac 
+ C     -     75879426    0.9354513      76892193   0.92252165 
+ C     h     575891      0.0070996583   979229     0.011748396 
+ C     m     4659994     0.057449006    5478593    0.06572996 
+ A     -     130835954   0.99916494     132028415  0.996551 
+ A     a     109339      0.00083499757  456941     0.0034489925 
+# bases             C,A 
+# total_reads_used  64711 
+# count_reads_A     64711 
+# count_reads_C     64696 
+# pass_threshold_A  0.8 
+# pass_threshold_C  0.8 
+ base  code  pass_count  pass_frac     all_count  all_frac 
+ A     -     176971355   0.99906105    178837216  0.9960152 
+ A     a     166319      0.000938925   715488     0.0039848355 
+ C     -     102121813   0.93601453    103569224  0.92278594 
+ C     h     786474      0.0072085587  1343316    0.011968739 
+ C     m     6194523     0.056776933   7322840    0.06524538 
+# bases             C,A 
+# total_reads_used  64689 
+# count_reads_A     64689 
+# count_reads_C     64638 
+# pass_threshold_A  0.8 
+# pass_threshold_C  0.8 
+ base  code  pass_count  pass_frac      all_count  all_frac 
+ A     -     129207159   0.99908537     130547973  0.9961441 
+ A     a     118291      0.00091467693  505331     0.0038559195 
+ C     -     75204223    0.9359545      76270229   0.9226912 
+ C     h     551058      0.006858195    959233     0.011604473 
+ C     m     4595014     0.05718727     5431166    0.06570439 
+# bases             A,C 
+# total_reads_used  64683 
+# count_reads_C     64642 
+# count_reads_A     64683 
+# pass_threshold_A  0.8 
+# pass_threshold_C  0.8 
+ base  code  pass_count  pass_frac      all_count  all_frac 
+ A     -     153686796   0.99912417     155178488  0.9963386 
+ A     a     134718      0.00087580725  570257     0.0036613904 
+ C     -     89283180    0.93616325     90495756   0.9232635 
+ C     h     623595      0.0065385965   1095913    0.011180816 
+ C     m     5464611     0.057298224    6425593    0.06555573 
+# bases             C,A 
+# total_reads_used  64679 
+# count_reads_A     64679 
+# count_reads_C     64629 
+# pass_threshold_C  0.8 
+# pass_threshold_A  0.8 
+ base  code  pass_count  pass_frac     all_count  all_frac 
+ A     -     112932258   0.99896234    114141421  0.99585444 
+ A     a     117303      0.0010376245  475151     0.0041455696 
+ C     -     65853766    0.93475556    66956254   0.92128426 
+ C     h     522043      0.0074100937  889685     0.012241616 
+ C     m     4074447     0.057834383   4831152    0.06647421 
