@@ -1,8 +1,14 @@
 # Zebrafish-Forebrain-Methylome
 Scripts used in Scientific Publication -> DOI pending
 
-## Zebrafish genome assembly: GRCz12tu (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_049306965.1/)
-## Zebrafish predicted CG Islands annotation, downloaded Oct 22nd, 2025 (https://genome.ucsc.edu/cgi-bin/hgTables)
+## Data availability
+The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**. Release-to-public date: March 26th, 2026.
+Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation level (output of script *06.04.methylation_regions*)
+
+## Annotations used
+Zebrafish genome assembly: **GRCz12tu** (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_049306965.1/)
+Zebrafish predicted CG Islands annotation, downloaded Oct 22nd, 2025 (https://genome.ucsc.edu/cgi-bin/hgTables)
+
 
 ## Scripts index
 
@@ -76,13 +82,14 @@ $HOME/
 │       │  ├── genes
 │       │  ├── genome_50kb_bins
 │       │  └── promoters
-│       └── regions/			# region coordinates templates
+│       ├── regions/			# region coordinates templates
+│       └── stats/
 │
 ├── Ref_genome/
 │   └── GRCz12tu/
 │       ├── genomic.gtf
 │       ├── GCF_049306965.1_GRCz12tu_genomic.fna
-│       ├── GCF_049306965.1_GRCz12tu_genomic.fna.fai   # index
+│       ├── GCF_049306965.1_GRCz12tu_genomic.fna.fai   # genome index
 │       └── chr_array.txt       
 │
 ├── QC/
@@ -98,16 +105,13 @@ $HOME/
 │   └── CpG_genome/
 │       └── CpG_sites_genome.bed
 │
-├── Chaterjee/
-│   ├── bismark_data_process/
-│   │   ├── fastq_runs/
-│   │   ├── mapping/
-│   │   └── meth_calls/
-│   │       └── output/
-│   ├── forebrain_cpg_sites
-│   └── methylation_cgi/
-│       ├── forebrain/
-│       └── whole-brain/
-│
-└── methylation_regions/
-    └── regions/
+└── Chaterjee/
+    ├── bismark_data_process/
+    │   ├── fastq_runs/
+    │   ├── mapping/
+    │   └── meth_calls/
+    │       └── output/
+    ├── forebrain_cpg_sites
+    └── methylation_cgi/
+        ├── forebrain/
+        └── whole-brain/

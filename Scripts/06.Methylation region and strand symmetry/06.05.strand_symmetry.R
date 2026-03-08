@@ -8,7 +8,8 @@ library(ggplot2)
 # 1. Genomic bins
 #=============================
 home <- path.expand("~")
-file <- paste0(home, "/methylation_regions/output/genome_50kb_bins/CH_genome_50kb_bins_stranded.txt")
+folder <- "/Data_methylation/methylation_regions/"
+file <- paste0(home, folder, "output/genome_50kb_bins/CH_genome_50kb_bins_stranded.txt")
 ds <- read.csv(file, header = FALSE, sep = "\t")
 
 # Set column names
@@ -51,7 +52,7 @@ chr_motif_results <- ds_rep %>%
   ungroup()
 
 # Write output
-out_file_genomic <- paste0(home, "/Pol/Methylome/methylation_regions/stats/chr_genome_50kb_bins_strand_stats.txt")
+out_file_genomic <- paste0(home, folder, "stats/chr_genome_50kb_bins_strand_stats.txt")
 write.table(chr_motif_results, out_file_genomic, sep = "\t", col.names = TRUE, row.names = FALSE, quote = FALSE)
 
 # =============================
@@ -91,7 +92,7 @@ global_results <- ds_global_rep %>%
   ungroup()
 
 # Write output
-out_file_genomic <- paste0(home, "/Pol/Methylome/methylation_regions/stats/genome_50kb_bins_strand_stats.txt")
+out_file_genomic <- paste0(home, folder, "stats/genome_50kb_bins_strand_stats.txt")
 write.table(global_results, out_file_genomic, sep = "\t", col.names = TRUE, row.names = FALSE, quote = FALSE)
 
 
@@ -100,7 +101,7 @@ write.table(global_results, out_file_genomic, sep = "\t", col.names = TRUE, row.
 #=============================
 
 name_analysis <- "promoters" # promoters, genes 
-file <- paste0(home, "/Pol/Methylome/methylation_regions/output/", 
+file <- paste0(home, folder, "output/", 
                name_analysis, "/CH_", name_analysis, "_stranded.txt")
 ds <- read.csv(file, header = FALSE, sep = "\t")
 
@@ -139,5 +140,5 @@ motif_results_all <- ds_rep %>%
   mutate(padj = p.adjust(p_value, method = "BH"))
 
 # Write output
-out_file_genes <- paste0(home, "/Pol/Methylome/methylation_regions/stats/genomic_50kbp_bins_strand_stats.txt")
+out_file_genes <- paste0(home, folder, "stats/genomic_50kbp_bins_strand_stats.txt")
 write.table(motif_results_all, out_file_genes, sep = "\t", col.names = TRUE, row.names = FALSE, quote = FALSE)
