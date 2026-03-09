@@ -1,8 +1,8 @@
 # This script joins sums the calls of 5mC and 5hmC (in CpG context) of forebrain (ONT) dataset. This is done because RRBS data outputs both modification in same calls. We add the calls and create meth_proportions. 
 
 # Load required libraries
-library(data.table)
-library(dplyr)
+library(data.table) # v.1.18
+library(dplyr) # version 1.1.4
 
 # Define paths
 home <- path.expand("~")

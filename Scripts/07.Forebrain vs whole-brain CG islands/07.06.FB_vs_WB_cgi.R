@@ -1,7 +1,7 @@
 # This script compares methylation proportions of forebrain (ONT) and whole-brain (RRBS) datasets in CpG islands. It computes Pearson and Spearman correlations, visualizes the relationship with scatter plots, and analyzes directional differences in methylation levels between the two datasets.
 
-library(dplyr)
-library(tidyr)
+library(dplyr) # version 1.1.4
+library(tidyr) # version 0.0.6
 
 
 regions_name<- "cgi"
@@ -27,7 +27,7 @@ forebrain <- list.files(path_fb, full.names=TRUE) %>%
     df
   }) %>%
   bind_rows(.id="sample") %>%
-  # keep only rows where meth and cov exist
+  # keep only rows where methylation and coverage exist
   filter(!is.na(meth) & !is.na(cov)) %>%
   group_by(chr,start,end) %>%
   summarise(

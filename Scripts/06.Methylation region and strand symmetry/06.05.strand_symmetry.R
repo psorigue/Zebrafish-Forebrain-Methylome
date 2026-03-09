@@ -1,8 +1,8 @@
 # This script analyzes strand symmetry of methylation in different genomic contexts (genome-wide bins, promoters, genes) by performing t-tests between positive and negative strands across replicates. It also computes mean methylation per strand and motif, and adjusts p-values for multiple testing.
 
-library(dplyr)
-library(tidyr)
-library(ggplot2)
+library(dplyr) # version 1.1.4
+library(tidyr) # version 0.0.6
+library(ggplot2) # version 4.0.1
 
 #=============================
 # 1. Genomic bins
