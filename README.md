@@ -1,4 +1,4 @@
-# Zebrafish-Forebrain-Methylome
+# Genome-wide DNA methylation profiling of the zebrafish forebrain
 Scripts used in Scientific Publication -> DOI pending
 
 ## Data availability
