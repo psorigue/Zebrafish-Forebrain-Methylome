@@ -62,6 +62,7 @@ Large files are not included in this repository. They can be obtained from:
 All scripts assume the following directory structure under `$HOME`.  
 After downloading the raw data, the pipeline can be run sequentially using the provided scripts.
 
+```bash
 $HOME/
 ├── Data/
 │   ├── bams_genomics/
@@ -123,3 +124,4 @@ $HOME/
     └── methylation_cgi/
         ├── forebrain/
         └── whole-brain/
+```
