@@ -6,7 +6,7 @@ DOI pending
 ## Data availability
 The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**.
 Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation (output of script *06.04.methylation_regions*) have been deposited at ArrayExpress under accession **E-MTAB-16780**.
-Release-to-public date: March 26th, 2026.
+Date of data public release: March 26th, 2026.
 
 ## Annotations Used:
 - Zebrafish genome assembly: **GRCz12tu** (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_049306965.1/)
