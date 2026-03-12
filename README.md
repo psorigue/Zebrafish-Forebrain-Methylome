@@ -1,13 +1,16 @@
 # Genome-wide DNA methylation profiling of the zebrafish forebrain
-Scripts used in Scientific Publication -> DOI pending
+Pol Sorigue, Maeva Pinget, João Costa, Magda Teles, Rui F. Oliveira
+
+DOI pending 
 
 ## Data availability
-The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**. Release-to-public date: March 26th, 2026.
-Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation (output of script *06.04.methylation_regions*) have been deposited at PENDING ACCESSION
+The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**.
+Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation (output of script *06.04.methylation_regions*) have been deposited at ArrayExpress under accession **E-MTAB-16780**.
+Release-to-public date: March 26th, 2026.
 
 ## Annotations Used:
 - Zebrafish genome assembly: **GRCz12tu** (https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_049306965.1/)
-- Zebrafish predicted CG Islands annotation, downloaded Oct 22nd, 2025 (https://genome.ucsc.edu/cgi-bin/hgTables)
+- Zebrafish predicted CpG Islands annotation, downloaded Oct 22nd, 2025 (https://genome.ucsc.edu/cgi-bin/hgTables)
 
 
 ## Scripts index
@@ -22,7 +25,7 @@ Intermediate files, including methylation matrices (output of script *02.pileup.
    - [02.pileup.sh](<Scripts/02.pileup.sh>) — Run `modkit pileup` for 6mA, CpG, and CH contexts and generate per‑modification+motif outputs. (Tools: modkit v0.5.0)
 
 3. **03 — CpG site counting**
-   - [03.modkit_compute_CpGs.sh](<Scripts/03.modkit_compute_CpGs.sh>) — Compute CpG sites in the reference and per‑sample coverage counts. (Tools: modkit v0.5.0; bedtools v2.31.1)
+   - [03.modkit_compute_CpGs.sh](<Scripts/03.modkit_compute_CpGs.sh>) — Compute CpG sites in the reference and per‑sample coverage values. (Tools: modkit v0.5.0; bedtools v2.31.1)
 
 4. **04 — Motif proportions**
    - [04.modification_proportions.sh](<Scripts/04.modification_proportions.sh>) — Compute motif counts/fractions (CH and A motifs) using `modkit motif evaluate`. (Tools: modkit v0.5.0)
@@ -55,8 +58,8 @@ Intermediate files, including methylation matrices (output of script *02.pileup.
 ### Directory structure assumed by the scripts
 
 Large files are not included in this repository. They can be obtained from:
-- Raw sequencing data: ENA (PRJEB108899) (see *Data availability* section)
-- Intermediate files: Accession pending (see *Data availability* section)
+- Raw sequencing data: ENA (accession PRJEB108899) (see *Data availability* section)
+- Intermediate files: ArrayExpress (accession E-MTAB-16780) (see *Data availability* section)
 - Online Annotations (see *Annotations Used* section)
 
 All scripts assume the following directory structure under `$HOME`.  
