@@ -1,5 +1,5 @@
 # Genome-wide DNA methylation profiling of the zebrafish forebrain
-Pol Sorigue(1,2), Maeva Pinget(1), João Costa(1), Magda Teles(1), Rui F. Oliveira(1,2,*)
+Pol Sorigue(1,2), Maeva Pinget(1), João Costa(1), Magda C. Teles(1), Rui F. Oliveira(1,2,*)
 
 1 GIMM - Gulbenkian Institute for Molecular Medicine, Rua Quinta Grande 6, 2780-156 Oeiras, Portugal
 2 ISPA - University Institute for Psychological, Social and Life Sciences, Rua do Jardim do Tabaco 34, 1149-041 Lisbon, Portugal
