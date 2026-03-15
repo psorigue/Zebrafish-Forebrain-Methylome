@@ -1,15 +1,15 @@
 # Genome-wide DNA methylation profiling of the zebrafish forebrain
 Pol Sorigue(1,2), Maeva Pinget(1), João Costa(1), Magda C. Teles(1), Rui F. Oliveira(1,2,*)
 
-1 GIMM - Gulbenkian Institute for Molecular Medicine, Rua Quinta Grande 6, 2780-156 Oeiras, Portugal
-2 ISPA - University Institute for Psychological, Social and Life Sciences, Rua do Jardim do Tabaco 34, 1149-041 Lisbon, Portugal
+1 GIMM - Gulbenkian Institute for Molecular Medicine, Rua Quinta Grande 6, 2780-156 Oeiras, Portugal  
+2 ISPA - University Institute for Psychological, Social and Life Sciences, Rua do Jardim do Tabaco 34, 1149-041 Lisbon, Portugal  
 (*) Corresponding author
 
 DOI pending 
 
 ## Data availability
-The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**.
-Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation (output of script *06.04.methylation_regions*) have been deposited at ArrayExpress under accession **E-MTAB-16780**.
+The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**.  
+Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation (output of script *06.04.methylation_regions*) have been deposited at ArrayExpress under accession **E-MTAB-16780**.  
 Date of data public release: March 26th, 2026.
 
 ## Annotations Used:
