@@ -5,7 +5,7 @@ Pol Sorigue(1,2), Maeva Pinget(1), João Costa(1), Magda C. Teles(1), Rui F. Oli
 2 ISPA - University Institute for Psychological, Social and Life Sciences, Rua do Jardim do Tabaco 34, 1149-041 Lisbon, Portugal  
 (*) Corresponding author
 
-DOI pending 
+DOI: https://doi.org/10.64898/2026.03.20.713102 (temporary, bioRxiv)
 
 ## Data availability
 The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**.  
