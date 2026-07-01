@@ -18,6 +18,7 @@ Date of data public release: March 26th, 2026.
 
 
 ## Scripts index
+The scripts assume that the required input files are available in the project home directory structure used by the repository.
 
 1. **01 — Preprocessing & QC**
    - [01.01.BAM_qc.sh](<Scripts/01.Sequencing and BAM stats/01.01.BAM_qc.sh>) — Run Qualimap on aligned BAMs; extract read‑length statistics. (Tools: Qualimap v2.3; samtools v1.21 and awk from system)
