@@ -1,26 +1,25 @@
-library(data.table)
-library(dplyr)
-library(ggplot2)
+# This script reads the methylation data for each replicate, filters the bins by number of occurrences, and keeps only the common sites across all replicates. It then merges the data into a single matrix and calculates pairwise Pearson correlations between replicates at the region level for CpG sites.
+
+library(data.table) # version
+library(dplyr) # version 1.1.4
 
 
 # ============================================================
 # 1. Set parameters and locate files
 # ============================================================
 
-mod <- "6mA"
-strand <- "neg"
+mod <- "5mC"
 
-path_write <- file.path("//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/reproducibility/region-level/", mod, strand)
-dir.create(path_write, recursive = T, showWarnings = F)
+home <- path.expand("~")
+path_write <- file.path(home, "Reproducibility", "Region-level", mod) # Path to write output files
+dir.create(path_write, recursive = TRUE, showWarnings = FALSE)
 
-dir <- file.path(
-  "//files1.igc.gulbenkian.pt/folders/ANB/Pol/Methylome/methylation_regions/output/genome_50kb_bins",
-  mod
-)
+dir <- file.path(home, "Data_methylation", "methylation_regions", "output", "genome_50kb_bins", mod)
 
+# List all files in the directory with .txt extension
 files <- list.files(
   path = dir,
-  pattern = paste0(mod, "_", strand),
+  pattern = "\\.txt$",
   full.names = TRUE
 )
 
@@ -41,7 +40,7 @@ replicate_names <- paste0("rep0", replicate_numbers)
 
 
 # ============================================================
-# 4. Function to read each methylation dataset
+# 3. Function to read each methylation dataset
 # ============================================================
 
 read_methylation <- function(file) {
@@ -62,7 +61,7 @@ read_methylation <- function(file) {
   
   # Filter bins by number of occurrences
   x <- x[
-    num_motifs >= 100
+      num_motifs >= 100
   ]
   
   # Keep only variables needed for downstream analyses
@@ -78,7 +77,7 @@ read_methylation <- function(file) {
 
 
 # ============================================================
-# 5. Load all six datasets
+# 4. Load all six datasets
 # ============================================================
 
 methylation <- lapply(
@@ -90,7 +89,7 @@ names(methylation) <- replicate_names
 
 
 # ============================================================
-# 6. Check for duplicated sites
+# 5. Check for duplicated sites
 # ============================================================
 
 sapply(
@@ -100,7 +99,7 @@ sapply(
 
 
 # ============================================================
-# 7. Check number of sites per replicate
+# 6. Check number of sites per replicate
 # ============================================================
 
 # Total number of sites
@@ -112,7 +111,7 @@ a <- sapply(
 write.table(a, file = file.path(path_write, "sites_per_replicate.txt"), sep = "\t", quote = F)
 
 # ============================================================
-# 8. Find sites shared by ALL six replicates
+# 7. Find sites shared by ALL six replicates
 # ============================================================
 
 common_sites <- Reduce(
@@ -137,9 +136,8 @@ c <- sapply(
 
 write.table(c, file = file.path(path_write, "proportion_retained_replicate.txt"), sep = "\t", quote = F)
 
-
 # ============================================================
-# 9. Keep only common sites
+# 8. Keep only common sites
 # ============================================================
 
 methylation_common <- lapply(
@@ -159,7 +157,7 @@ length(common_sites)
 
 
 # ============================================================
-# 10. Keep site_id + methylation and rename methylation
+# 9. Keep binID + methylation and rename methylation
 #     according to replicate
 # ============================================================
 
@@ -189,7 +187,7 @@ methylation_matrix <- lapply(
 
 
 # ============================================================
-# 11. Merge the six replicates
+# 10. Merge the six replicates
 # ============================================================
 
 methylation_matrix <- Reduce(
@@ -206,15 +204,15 @@ methylation_matrix <- Reduce(
   methylation_matrix
 )
 
+# make sure methylation values are numeric
 methylation_matrix[, (names(methylation_matrix)[-1]) := 
                      lapply(.SD, as.numeric),
                    .SDcols = names(methylation_matrix)[-1]]
 
-str(methylation_matrix)
 
 
 # ============================================================
-# 13. Convert to long format for plotting
+# 11. Convert to long format for plotting
 # ============================================================
 
 methylation_long <- melt(
@@ -224,33 +222,9 @@ methylation_long <- melt(
   value.name = "methylation"
 )
 
-head(methylation_long)
-
 
 # ============================================================
-# 14. Plot methylation distributions
-# ============================================================
-
-ggplot(
-  methylation_long,
-  aes(
-    x = methylation,
-    fill = replicate
-  )
-) +
-  geom_density(
-    alpha = 0.3
-  ) +
-  labs(
-    x = "Methylation (%)",
-    y = "Density",
-    fill = "Replicate"
-  ) +
-  theme_classic()
-
-
-# ============================================================
-# 15. Calculate pairwise Pearson correlations
+# 12. Calculate pairwise Pearson correlations
 # ============================================================
 
 methylation_values <- as.matrix(
@@ -264,144 +238,3 @@ pearson_cor <- cor(
 )
 
 write.table(pearson_cor, file = file.path(path_write, "pearson_matrix.txt"), sep = "\t", quote = F)
-
-
-# ============================================================
-# 17. Pearson correlation heatmap
-# ============================================================
-
-# Convert matrix to data frame first
-pearson_df <- as.data.frame(pearson_cor)
-pearson_df$Replicate1 <- rownames(pearson_df)
-
-# Melt using data.table (or standard data.frame method)
-pearson_long <- melt(
-  as.data.table(pearson_df), 
-  id.vars = "Replicate1", 
-  variable.name = "Replicate2", 
-  value.name = "Correlation"
-)
-
-ggplot(
-  pearson_long,
-  aes(
-    x = Replicate1,
-    y = Replicate2,
-    fill = Correlation
-  )
-) +
-  geom_tile() +
-  geom_text(
-    aes(label = sprintf("%.2f", Correlation)),
-    size = 4
-  ) +
-  scale_fill_gradient2(
-    limits = c(-1, 1),
-    midpoint = 0,
-    name = "Pearson r"
-  ) +
-  labs(
-    x = NULL,
-    y = NULL,
-    title = "Site-level methylation reproducibility"
-  ) +
-  coord_equal() +
-  theme_classic()
-
-
-# ============================================================
-# 19. Prepare data for PCA
-# ============================================================
-
-pca_data <- t(methylation_values)
-
-dim(pca_data)
-
-# ============================================================
-# 20. Remove constant CpG sites
-# ============================================================
-
-# Calculate variance of each CpG across the six replicates
-site_variance <- apply(
-  pca_data,
-  2,
-  var
-)
-
-# Keep only CpGs with non-zero variance
-pca_data_variable <- pca_data[
-  ,
-  site_variance > 0,
-  drop = FALSE
-]
-
-# Check how many sites remain
-dim(pca_data_variable)
-
-# Number of constant sites removed
-sum(site_variance == 0)
-
-# ============================================================
-# 20. Run PCA
-# ============================================================
-
-pca <- prcomp(
-  pca_data_variable,
-  center = TRUE,
-  scale. = TRUE
-)
-
-
-# ============================================================
-# 21. PCA variance explained
-# ============================================================
-
-pca_variance <- pca$sdev^2 /
-  sum(pca$sdev^2)
-
-pca_variance
-
-round(
-  pca_variance * 100,
-  2
-)
-
-# ============================================================
-# 22. PCA plot
-# ============================================================
-
-pca_scores <- as.data.frame(
-  pca$x
-)
-
-pca_scores$replicate <- rownames(pca_scores)
-
-ggplot(
-  pca_scores,
-  aes(
-    x = PC1,
-    y = PC2,
-    label = replicate
-  )
-) +
-  geom_point(
-    size = 4
-  ) +
-  geom_text(
-    vjust = -0.8,
-    size = 4
-  ) +
-  labs(
-    x = paste0(
-      "PC1 (",
-      round(pca_variance[1] * 100, 1),
-      "%)"
-    ),
-    y = paste0(
-      "PC2 (",
-      round(pca_variance[2] * 100, 1),
-      "%)"
-    ),
-    title = "PCA of site-level methylation"
-  ) +
-  theme_classic()
