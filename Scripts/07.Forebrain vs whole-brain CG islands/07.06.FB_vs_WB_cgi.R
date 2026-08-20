@@ -1,4 +1,6 @@
-# This script compares methylation proportions of forebrain (ONT) and whole-brain (RRBS) datasets in CpG islands. It computes Pearson and Spearman correlations, visualizes the relationship with scatter plots, and analyzes directional differences in methylation levels between the two datasets.
+# This script compares methylation proportions of forebrain (ONT) and whole-brain (RRBS) datasets in CpG islands. 
+# It computes Pearson and Spearman correlations, visualizes the relationship with scatter plots, 
+# and analyzes what CpG islands are outliers based on prediction intervals from a linear regression model.
 
 library(dplyr) # version 1.1.4
 library(tidyr) # version 0.0.6
@@ -78,61 +80,105 @@ cors <- sapply(thresholds, function(t){
 })
 plot(thresholds, cors, type="b", xlab="Min CpG per region", ylab="Pearson correlation")
 
-# 4. Simple Pearson and Spearman
+# 4. Compute Pearson and Spearman correlations
 cor_pearson <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, method="pearson")
 cor_spearman <- cor(merged_filtered$mean_meth_FB, merged_filtered$mean_meth_WB, method="spearman")
 
-# 5. Scatter plot to visualize correlation
-library(ggplot2)
-pc <- ggplot(merged_filtered, aes(x=mean_meth_WB, y=mean_meth_FB)) +
-  geom_point(alpha=0.3) +
-  geom_smooth(method="lm", color="#1f4e99") +
-  xlab("Whole-brain RRBS") + ylab("Forebrain ONT") +
-  ggtitle(paste0("Pearson: ", round(cor_pearson,2),
-                 " Spearman: ", round(cor_spearman,2)))
-pc
-out_file_corr <- paste0(home, "/Chaterjee/cgi_fb_vs_wb.pdf")
-ggsave(out_file_corr, pc)
+# 5. Fit linear regression and identify outliers
+# Fit linear regression
+lm_fit <- lm(mean_meth_FB ~ mean_meth_WB, data = merged_filtered)
 
-# 6. Analyze directional differences in methylation
+# Add predicted values and 95% prediction intervals
+pred <- predict(lm_fit,
+                newdata = merged_filtered,
+                interval = "prediction",
+                level = 0.95)
+
 merged_filtered <- merged_filtered %>%
-  mutate(delta = mean_meth_FB - mean_meth_WB)
-
-# Classify changes
-threshold <- 0.15 # Percentage of delta
-merged_filtered <- merged_filtered %>%
-  mutate(direction = case_when(
-    delta > threshold ~ "Hyper in FB",
-    delta < -threshold ~ "Hypo in FB",
-    TRUE ~ "No change"
-  ))
-table(merged_filtered$direction)
-
-# Histogram of delta methylation
-ph <- ggplot(merged_filtered, aes(x=delta, fill=direction)) +
-  geom_histogram(binwidth=0.02, position="stack", color="black", alpha=0.8) +
-  geom_vline(xintercept=0, linetype="dashed", color="darkgray") +
-  scale_fill_manual(values=c("Hypo in FB"="#d4a017", "Hyper in FB"="#1f4e99", "No change"="gray80")) +
-  theme_minimal(base_size=14) +
-  labs(
-    x = expression(Delta~Methylation~(Forebrain - Whole~brain)),
-    y = "Number of regions",
-    fill = "Direction",
-    title = "Regional methylation differences"
-  ) +
-  theme(
-    legend.position = "right",
-    plot.title = element_text(hjust = 0.5, face="bold")
+  mutate(
+    predicted = pred[, "fit"],
+    PI_lower = pred[, "lwr"],
+    PI_upper = pred[, "upr"],
+    outside_PI = mean_meth_FB < PI_lower | mean_meth_FB > PI_upper
   )
 
-ph
-merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
-out_file_hist <- paste0(home, "/Chaterjee/cgi_fb_vs_wb2.pdf")
-ggsave(out_file_hist, ph)
+table(merged_filtered$outside_PI)
 
-# Order and write merged_filtered table to file
-out_file <- paste0(home, "/Chaterjee/cgi_FB_vs_WB.txt")
+# Identify outlying CpG islands based on the prediction intervals
+outlier_cgis <- merged_filtered %>%
+  filter(outside_PI) %>%
+  arrange(desc(abs(mean_meth_FB - predicted)))
 
-merged_filtered_ord <- merged_filtered[order(abs(merged_filtered$delta), decreasing = T),]
-write.table(merged_filtered_ord, out_file, sep = "\t", quote = F, col.names = T, row.names = F)
+outlier_cgis
+out_file <- paste0(home, "/Chaterjee/outlier_cgi_FB_vs_WB.txt")
+write.table(outlier_cgis, out_file, sep = "\t", quote = F, col.names = T, row.names = F)
 
+# Prediction grid
+new_x <- data.frame(
+  mean_meth_WB = seq(
+    min(merged_filtered$mean_meth_WB),
+    max(merged_filtered$mean_meth_WB),
+    length.out = 200
+  )
+)
+
+pred_grid <- predict(
+  lm_fit,
+  newdata = new_x,
+  interval = "prediction",
+  level = 0.95
+)
+
+pred_grid <- cbind(new_x, pred_grid)
+
+pred_grid <- pred_grid %>%
+  mutate(
+    lwr = pmax(lwr, 0),
+    upr = pmin(upr, 1)
+  )
+
+# Plot
+p <- ggplot(merged_filtered,
+            aes(x = mean_meth_WB, y = mean_meth_FB)) +
+  
+  geom_ribbon(
+    data = pred_grid,
+    aes(x = mean_meth_WB, ymin = lwr, ymax = upr),
+    inherit.aes = FALSE,
+    alpha = 0.10
+  ) +
+  
+  geom_line(
+    data = pred_grid,
+    aes(x = mean_meth_WB, y = fit),
+    inherit.aes = FALSE,
+    color = "black"
+  ) +
+  
+  geom_point(
+    aes(color = outside_PI, alpha = outside_PI)
+  ) +
+  
+  scale_color_manual(
+    values = c("FALSE" = "black",
+               "TRUE" = "#1f4e99"),
+    labels = c("FALSE" = "Within prediction interval",
+               "TRUE" = "Outside prediction interval"),
+    name = NULL
+  ) +
+  
+  scale_alpha_manual(
+    values = c("FALSE" = 0.1,
+               "TRUE" = 0.9),
+    guide = "none"
+  ) +
+  
+  xlab("Whole-brain RRBS") +
+  ylab("Forebrain ONT") +
+  theme_classic() +
+  
+  theme(legend.position = "none")
+
+p
+out_file <- paste0(home, "/Chaterjee/cgi_fb_vs_wb.pdf")
+ggsave(out_file, p)
