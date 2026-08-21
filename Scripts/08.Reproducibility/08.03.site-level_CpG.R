@@ -1,6 +1,6 @@
 # This script calculates the reproducibility of methylation levels at the site level for 5mC in CpG context. It takes as input the output of script 06.01, which are TXT files with the following columns: chr, start, end, methylation (proportion), coverage (depth). It computes Pearson correlations between replicates at the site level.
 
-library(data.table) # version
+library(data.table) # version 1.18.0
 library(dplyr) # version 1.1.4
 
 

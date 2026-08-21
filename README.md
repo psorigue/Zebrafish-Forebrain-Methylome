@@ -56,10 +56,10 @@ The scripts assume that the required input files are available in the project ho
    - [07.07.overlap_cgi_genes.R](<Scripts/07.Forebrain vs whole-brain CG islands/07.07.overlap_cgi_genes.R>) — (R) Find genes overlapping CpG islands. (R v4.5.2; package GenomicRanges v1.62.1)
 
 8. **08 — Reproducibility analyses**
-   - [08.01.region-level_CpG.R](<Scripts/08.Reproducibility/08.01.region-level_CpG.R>) — Calculate pairwise Pearson correlations between replicates at the region level for CpG methylation. (R v4.5.2; packages data.table, dplyr v1.1.4)
-   - [08.02.region-level_nonCpG.R](<Scripts/08.Reproducibility/08.02.region-level_nonCpG.R>) — Calculate pairwise Pearson correlations between replicates at the region level for non-CpG methylation and 6mA. (R v4.5.2; packages data.table, dplyr v1.1.4)
-   - [08.03.site-level_CpG.R](<Scripts/08.Reproducibility/08.03.site-level_CpG.R>) — Calculate pairwise Pearson correlations between replicates at the site level for CpG methylation. (R v4.5.2; packages data.table, dplyr v1.1.4)
-   - [08.04.site-level_nonCpG.R](<Scripts/08.Reproducibility/08.04.site-level_nonCpG.R>) — Calculate pairwise Pearson correlations between replicates at the site level for non-CpG methylation and 6mA. (R v4.5.2; packages data.table, dplyr v1.1.4)
+   - [08.01.region-level_CpG.R](<Scripts/08.Reproducibility/08.01.region-level_CpG.R>) — Calculate pairwise Pearson correlations between replicates at the region level for CpG methylation. (R v4.5.2; packages data.table v1.18.0, dplyr v1.1.4)
+   - [08.02.region-level_nonCpG.R](<Scripts/08.Reproducibility/08.02.region-level_nonCpG.R>) — Calculate pairwise Pearson correlations between replicates at the region level for non-CpG methylation and 6mA. (R v4.5.2; packages data.table v1.18.0, dplyr v1.1.4)
+   - [08.03.site-level_CpG.R](<Scripts/08.Reproducibility/08.03.site-level_CpG.R>) — Calculate pairwise Pearson correlations between replicates at the site level for CpG methylation. (R v4.5.2; packages data.table v1.18.0, dplyr v1.1.4)
+   - [08.04.site-level_nonCpG.R](<Scripts/08.Reproducibility/08.04.site-level_nonCpG.R>) — Calculate pairwise Pearson correlations between replicates at the site level for non-CpG methylation and 6mA. (R v4.5.2; packages data.table v1.18.0, dplyr v1.1.4)
 
 **Notes**
 
