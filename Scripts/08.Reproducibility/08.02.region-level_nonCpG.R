@@ -1,4 +1,6 @@
-# This script reads the methylation data for each replicate, filters the bins by number of occurrences, and keeps only the common sites across all replicates. It then merges the data into a single matrix and calculates pairwise Pearson correlations between replicates at the region level for non-CpG and 6mA sites.
+# This script reads the methylation data for each replicate, filters the bins by number of occurrences, 
+# and keeps only the common sites across all replicates. 
+# It then merges the data into a single matrix and calculates pairwise Pearson correlations between replicates at the region level for non-CpG and 6mA sites.
 
 library(data.table) # version 1.18.0
 library(dplyr) # version 1.1.4

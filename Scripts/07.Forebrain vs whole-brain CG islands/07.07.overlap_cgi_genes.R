@@ -1,4 +1,6 @@
-# This script identifies genes that overlap with CpG islands (CGIs) in the zebrafish genome. It reads gene regions and CGI coordinates, converts them to GenomicRanges objects, finds overlaps, and outputs a list of genes that overlap with CGIs.
+# This script identifies genes that overlap with CpG islands (CGIs) in the zebrafish genome. 
+# It reads gene regions and CGI coordinates, converts them to GenomicRanges objects, finds overlaps, 
+# and outputs a list of genes that overlap with CGIs.
 
 library(GenomicRanges) # version 1.62.1
 
