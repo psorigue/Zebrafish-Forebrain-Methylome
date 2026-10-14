@@ -7,6 +7,7 @@ Pol Sorigue(1,2), Maeva Pinget(1), João Costa(1), Magda C. Teles(1), Rui F. Oli
 
 DOI: https://doi.org/10.1038/s41597-026-08399-2 (Scientific Data) 
 
+
 ## Data availability
 The raw sequencing data for this study have been deposited in the European Nucleotide Archive (ENA) at EMBL-EBI under accession number **PRJEB108899**.  
 Intermediate files, including methylation matrices (output of script *02.pileup.sh*) and per-region methylation (output of script *06.04.methylation_regions*) have been deposited at ArrayExpress under accession **E-MTAB-16780**.  
